@@ -1,1 +1,34 @@
+# dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+
+# local environment
+.env
+.env*.local
+
+# deploy
+.vercel
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# editors and OS
 .vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# local tools
+.claude/
+
+# licensed Envato sources and original media, kept outside the repo
+_assets-source/

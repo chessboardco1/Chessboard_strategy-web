@@ -1,0 +1,209 @@
+@import 'tailwindcss';
+
+/* Ebony and boxwood: the two materials of the board. Purple is the "your move" square, nothing else. */
+@theme {
+  --color-ebony: #12110f;
+  --color-ebony-2: #1c1a17;
+  --color-ebony-3: #2a2723;
+  --color-box: #efe9de;
+  --color-box-2: #e5ddcf;
+  --color-box-3: #d9cfbe;
+  --color-ink: #1f1b16;
+  --color-ink-2: #5e554a;
+  --color-ink-3: #6e6559;
+  --color-chalk: #efe9de;
+  --color-chalk-2: #aaa398;
+  --color-chalk-3: #8a847a;
+  --color-move: #9966ff;
+
+  --font-display: var(--font-hertloom), Georgia, serif;
+  --font-sans: var(--font-body), system-ui, sans-serif;
+
+  --ease-move: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-settle: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-box);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  ::selection {
+    background: var(--color-move);
+    color: var(--color-ebony);
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-move);
+    outline-offset: 4px;
+  }
+  h1, h2, h3 {
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  img, video, canvas {
+    display: block;
+  }
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 4vw, 64px);
+  }
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1;
+  }
+  .t-hero { font-size: clamp(56px, 9vw, 156px); line-height: 0.96; }
+  .t-xl { font-size: clamp(44px, 6vw, 96px); line-height: 1; }
+  .t-l { font-size: clamp(36px, 4.4vw, 68px); line-height: 1.05; }
+  .t-m { font-size: clamp(28px, 3vw, 44px); line-height: 1.1; }
+  .lede { font-size: clamp(18px, 1.5vw, 21px); line-height: 1.55; }
+
+  /* One vertical rhythm for every section */
+  .section-y { padding-block: clamp(72px, 10vw, 128px); }
+  .section-b { padding-bottom: clamp(72px, 10vw, 128px); }
+
+  /* Underlined text link: the line draws in from the left on hover */
+  .link-line {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    padding-bottom: 3px;
+    transition: background-size 0.5s var(--ease-move);
+  }
+  .link-line:hover { animation: line-redraw 0.7s var(--ease-move); }
+
+  /* The purple fill expands from the square and retracts to the same spot. */
+  .btn-move {
+    --sq-inset: 22px;
+    --sq-size: 10px;
+    --sq-gap: 14px;
+    --sq-edge: calc((100% - var(--sq-size)) / 2);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    height: 56px;
+    padding: 0 var(--sq-inset) 0 calc(var(--sq-inset) + var(--sq-size) + var(--sq-gap));
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 2px;
+    transition: color 0.34s var(--ease-move);
+  }
+  .btn-move .sq {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: var(--color-move);
+    clip-path: inset(var(--sq-edge) calc(100% - var(--sq-inset) - var(--sq-size)) var(--sq-edge) var(--sq-inset));
+    transition: clip-path 0.45s var(--ease-move);
+  }
+  .btn-dark { background: var(--color-ebony); color: var(--color-chalk); }
+  .btn-light { background: var(--color-box); color: var(--color-ebony); }
+  .btn-move:is(:hover, :focus-visible) { color: var(--color-ebony); }
+  .btn-move:is(:hover, :focus-visible) .sq { clip-path: inset(0); }
+
+  /* Fixed header: transparent at the top, tinted and blurred once compact */
+  .site-header {
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.5s var(--ease-move), border-color 0.5s var(--ease-move),
+      backdrop-filter 0.5s var(--ease-move), -webkit-backdrop-filter 0.5s var(--ease-move);
+  }
+  .site-header.is-tinted {
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+  .site-header.tint-light {
+    background: rgb(239 233 222 / 0.72);
+    border-bottom-color: rgb(31 27 22 / 0.1);
+  }
+  .site-header.tint-dark {
+    background: rgb(18 17 15 / 0.72);
+    border-bottom-color: rgb(239 233 222 / 0.1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-enter {
+    animation: hero-enter 0.75s var(--ease-move) var(--hero-delay, 0ms) both;
+  }
+
+  .hero-knights {
+    scale: 0.82;
+    transition: scale 0.7s var(--ease-move);
+  }
+
+  .hero-knights[data-ready] {
+    scale: 1;
+    transition-delay: 140ms;
+  }
+}
+
+@keyframes hero-enter {
+  from { opacity: 0.5; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Smaller button for phones: tighter padding so it sits on one row with a text link */
+@utility btn-compact {
+  --sq-inset: 16px;
+  --sq-gap: 10px;
+  height: 48px;
+  font-size: 15px;
+}
+
+/* Client logo grid: a true checker at 2, 3 and 5 columns, worked out from row and column */
+.logo-grid > li[data-c2='1'] { background: rgb(229 221 207 / 0.5); }
+@media (width >= 40rem) {
+  .logo-grid > li[data-c2='1'] { background: none; }
+  .logo-grid > li[data-c3='1'] { background: rgb(229 221 207 / 0.5); }
+}
+@media (width >= 64rem) {
+  .logo-grid > li[data-c3='1'] { background: none; }
+  .logo-grid > li[data-c5='1'] { background: rgb(229 221 207 / 0.5); }
+}
+
+/* Line reveals clip each line to its box; with tight display leading that would cut descenders (g, y)
+   and accents, so the mask gets room above and below without changing the layout. */
+.split-line-mask {
+  padding-block: 0.06em 0.2em;
+  margin-block: -0.06em -0.2em;
+}
+
+@keyframes line-redraw {
+  0% { background-size: 100% 1px; background-position: 100% 100%; }
+  45% { background-size: 0% 1px; background-position: 100% 100%; }
+  46% { background-size: 0% 1px; background-position: 0 100%; }
+  100% { background-size: 100% 1px; background-position: 0 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
