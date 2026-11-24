@@ -7,6 +7,8 @@ import { TLink } from '@/components/motion/BoardTransition';
 import { FadeUp, RevealLines, ScrubWords } from '@/components/motion/Text';
 import { insights, pieces, services, work } from '@/lib/content';
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
 }
