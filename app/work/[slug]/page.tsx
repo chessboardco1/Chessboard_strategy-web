@@ -6,6 +6,8 @@ import { TLink } from '@/components/motion/BoardTransition';
 import { ClipReveal, FadeUp, RevealLines } from '@/components/motion/Text';
 import { services, work } from '@/lib/content';
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return work.map((w) => ({ slug: w.slug }));
 }

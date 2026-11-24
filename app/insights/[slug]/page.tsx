@@ -6,6 +6,8 @@ import { TLink } from '@/components/motion/BoardTransition';
 import { FadeUp, RevealLines } from '@/components/motion/Text';
 import { insights, readingMinutes, services, site } from '@/lib/content';
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return insights.map((p) => ({ slug: p.slug }));
 }

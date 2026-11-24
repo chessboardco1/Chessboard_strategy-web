@@ -65,8 +65,8 @@ export function Hero() {
         </div>
       </div>
 
-      <div aria-hidden="true" className="relative min-h-[255px] flex-1 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[48%] md:landscape:absolute md:landscape:inset-y-0 md:landscape:right-0 md:landscape:w-[46%]">
-        <div data-ready={sceneReady || undefined} className="hero-knights pointer-events-none absolute left-1/2 top-1/2 aspect-[766/940] w-[min(100%,330px)] -translate-x-1/2 -translate-y-1/2 md:landscape:w-[min(100%,81.5svh)] lg:w-[min(100%,81.5svh)]">
+      <div aria-hidden="true" className="relative min-h-[285px] flex-1 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[48%] md:landscape:absolute md:landscape:inset-y-0 md:landscape:right-0 md:landscape:w-[46%]">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 aspect-[766/940] w-[min(115%,380px)] -translate-x-1/2 -translate-y-1/2 md:landscape:w-[min(115%,94svh)] lg:w-[min(115%,94svh)]">
           {/* The still uses the same camera crop as the first WebGL frame. */}
           <img src="/brand/knights-preview.webp" alt="" width={728} height={729} fetchPriority="high" className="absolute left-[12%] top-[20%] h-[62%] w-[76%]" />
           {showScene && (
