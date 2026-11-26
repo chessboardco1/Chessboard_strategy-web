@@ -12,16 +12,16 @@ export default async function OG() {
   const squares = Array.from({ length: 64 }, (_, i) => i);
   return new ImageResponse(
     (
-      <div style={{ width: '100%', height: '100%', display: 'flex', background: '#12110f', color: '#efe9de', padding: 72, fontFamily: 'Hertloom' }}>
+      <div style={{ width: '100%', height: '100%', display: 'flex', background: '#ffffff', color: '#333333', padding: 72, fontFamily: 'Hertloom' }}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
-          <div style={{ fontSize: 30, color: '#aaa398' }}>Chessboard Strategy</div>
+          <div style={{ fontSize: 30, color: '#9966ff' }}>Chessboard Strategy</div>
           <div style={{ fontSize: 92, lineHeight: 1, maxWidth: 640 }}>Growth, planned like a game of chess</div>
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', width: 384, height: 384, alignSelf: 'center' }}>
           {squares.map((i) => {
             const r = Math.floor(i / 8);
             const c = i % 8;
-            const bg = r === 2 && c === 5 ? '#9966ff' : (r + c) % 2 === 0 ? '#2a2723' : '#1c1a17';
+            const bg = r === 2 && c === 5 ? '#9966ff' : (r + c) % 2 === 0 ? '#1e1e1e' : '#0b0b0b';
             return <div key={i} style={{ width: 48, height: 48, background: bg }} />;
           })}
         </div>

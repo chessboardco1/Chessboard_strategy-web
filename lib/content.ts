@@ -136,6 +136,21 @@ export const services: Service[] = [
     outcome: 'A tighter revenue system where fewer leads are wasted and every conversation has a clear next move.',
     insight: 'revenue-engine',
   },
+  {
+    slug: 'd2c-growth',
+    name: 'D2C growth',
+    line: 'Direct-to-consumer brands, built to sell and repeat',
+    piece: 'king',
+    intro: 'We plan the full direct-to-consumer journey, from the first ad and product page to checkout, repeat purchase and loyalty, so every rupee of acquisition is tied to customer lifetime value',
+    problem: 'D2C brands often spend heavily to acquire customers and then lose them at checkout or after the first order. Without a retention plan, every new customer costs the same again.',
+    structure: [
+      'Offer, pricing and product page conversion audit',
+      'Acquisition plan across paid social, search and creators',
+      'Checkout, abandoned cart and post-purchase flows',
+      'Retention, repeat-purchase and loyalty programme',
+    ],
+    outcome: 'A direct-to-consumer engine that acquires customers profitably, converts them faster and brings them back.',
+  },
 ];
 
 export type Work = {

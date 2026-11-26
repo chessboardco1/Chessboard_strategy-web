@@ -55,7 +55,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       <section data-tone="light" aria-label="The problem" className="bg-box">
         <div className="wrap section-y">
           <p className="mb-10 text-[15px] text-ink-3">The problem we solve</p>
-          <ScrubWords className="display max-w-[26ch] text-[clamp(32px,4.2vw,64px)] leading-[1.1] text-ebony" from="#cfc5b4">
+          <ScrubWords className="display max-w-[26ch] text-[clamp(32px,4.2vw,64px)] leading-[1.1] text-ebony" from="#d4d4d4">
             {s.problem}
           </ScrubWords>
         </div>

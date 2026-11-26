@@ -51,8 +51,8 @@ export function ChessDiagram({
   title?: string;
 }) {
   const pieces = parsePosition(position);
-  const light = tone === 'light' ? '#e5ddcf' : '#2a2723';
-  const dark = tone === 'light' ? '#c9bba3' : '#1c1a17';
+  const light = tone === 'light' ? '#ffffff' : '#262626';
+  const dark = tone === 'light' ? '#333333' : '#0b0b0b';
   const marked = new Set([...(highlight ?? []), ...(play ? moves.flat() : [])]);
   const ease = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
@@ -91,8 +91,8 @@ export function ChessDiagram({
             <path
               d={SHAPES[p.type]}
               transform="translate(-0.075 -0.075) scale(0.0115)"
-              fill={p.white ? '#f8f3ea' : '#12110f'}
-              stroke={p.white ? '#12110f' : tone === 'dark' ? '#8a847a' : '#12110f'}
+              fill={p.white ? '#ffffff' : '#0b0b0b'}
+              stroke={p.white ? '#0b0b0b' : '#ffffff'}
               strokeWidth={p.white ? 3.2 : 2}
               strokeLinejoin="round"
             />

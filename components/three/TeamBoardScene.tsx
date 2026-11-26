@@ -139,7 +139,7 @@ function Room({
       ))}
       <mesh rotation-x={-Math.PI / 2} position={[0, built.boardBottom - 0.001, 0]} receiveShadow>
         <planeGeometry args={[60, 60]} />
-        <meshStandardMaterial color="#171512" roughness={0.9} />
+        <meshStandardMaterial color="#0b0b0b" roughness={0.9} />
       </mesh>
       <ContactShadows position={[0, built.boardBottom + 0.002, 0]} resolution={256} frames={1} opacity={0.85} scale={7} blur={2} far={1.2} color="#000000" />
     </>
@@ -167,8 +167,8 @@ export default function TeamBoardScene({
       gl={{ antialias: true, alpha: false, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.15 }}
       onPointerMissed={() => onPick(null)}
     >
-      <color attach="background" args={['#171512']} />
-      <fog attach="fog" args={['#171512', 9, 22]} />
+      <color attach="background" args={['#0b0b0b']} />
+      <fog attach="fog" args={['#0b0b0b', 9, 22]} />
       <Suspense fallback={null}>
         <Studio intensity={1.3} />
         <ambientLight intensity={0.25} />

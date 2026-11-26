@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 
 /** A muted film that only loads and plays while it is on screen. */
-export function Film({ src, poster, label, className }: { src: string; poster: string; label: string; className?: string }) {
+export function Film({ src, poster, label, className }: { src: string; poster?: string; label: string; className?: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const v = ref.current;

@@ -39,7 +39,7 @@ export function RevealLines({ as: Tag = 'h2', className, children, id, onLoad = 
 }
 
 /** Words go from muted to full colour, tied to scroll position, as you read. */
-export function ScrubWords({ as: Tag = 'p', className, children, from = '#4a453e' }: Props & { from?: string }) {
+export function ScrubWords({ as: Tag = 'p', className, children, from = '#5c5c5c' }: Props & { from?: string }) {
   const ref = useRef<HTMLElement>(null);
   useGSAP(
     () => {

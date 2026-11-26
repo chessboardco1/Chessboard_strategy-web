@@ -160,7 +160,7 @@ export default function BoardScene({ progress, order, active = true, onReady }: 
       camera={{ position: [5.2, 1.3, 6.4], fov: 32 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.2 }}
     >
-      <fog attach="fog" args={['#12110f', 9, 20]} />
+      <fog attach="fog" args={['#0b0b0b', 9, 20]} />
       <Suspense fallback={null}>
         <Studio intensity={1.4} />
         <ambientLight intensity={0.2} />

@@ -14,7 +14,7 @@ export default function ServicesPage() {
   return (
     <>
       <PageHero
-        title="Six services, played as one system"
+        title="Seven services, played as one system"
         lede="Each service stands on its own. Together they cover the whole board, from the plan to the follow-up call"
       />
       <section data-tone="light" className="bg-box section-b">
@@ -24,7 +24,7 @@ export default function ServicesPage() {
       </section>
       <section data-tone="dark" aria-label="How the services connect" className="bg-ebony text-chalk">
         <div className="wrap py-36 md:py-52">
-          <ScrubWords className="display max-w-[24ch] text-[clamp(34px,4.6vw,72px)] leading-[1.08]" from="#3a362f">
+          <ScrubWords className="display max-w-[24ch] text-[clamp(34px,4.6vw,72px)] leading-[1.08]" from="#4d4d4d">
             A campaign without a plan is noise. A plan without follow-up is a document. We connect the two, so the money you spend keeps working after the click.
           </ScrubWords>
         </div>

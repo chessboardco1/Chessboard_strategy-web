@@ -1,19 +1,19 @@
 @import 'tailwindcss';
 
-/* Ebony and boxwood: the two materials of the board. Purple is the "your move" square, nothing else. */
+/* Brand palette from the logo: white, dark grey (#333) and purple. Purple is the accent, used sparingly. */
 @theme {
-  --color-ebony: #12110f;
-  --color-ebony-2: #1c1a17;
-  --color-ebony-3: #2a2723;
-  --color-box: #efe9de;
-  --color-box-2: #e5ddcf;
-  --color-box-3: #d9cfbe;
-  --color-ink: #1f1b16;
-  --color-ink-2: #5e554a;
-  --color-ink-3: #6e6559;
-  --color-chalk: #efe9de;
-  --color-chalk-2: #aaa398;
-  --color-chalk-3: #8a847a;
+  --color-ebony: #0b0b0b;
+  --color-ebony-2: #141414;
+  --color-ebony-3: #1e1e1e;
+  --color-box: #ffffff;
+  --color-box-2: #f4f4f5;
+  --color-box-3: #e9e9ec;
+  --color-ink: #333333;
+  --color-ink-2: #5c5c5c;
+  --color-ink-3: #737373;
+  --color-chalk: #ffffff;
+  --color-chalk-2: #c9c9c9;
+  --color-chalk-3: #9a9a9a;
   --color-move: #9966ff;
 
   --font-display: var(--font-hertloom), Georgia, serif;
@@ -138,12 +138,12 @@ html.lenis, html.lenis body { height: auto; }
     backdrop-filter: blur(14px);
   }
   .site-header.tint-light {
-    background: rgb(239 233 222 / 0.72);
-    border-bottom-color: rgb(31 27 22 / 0.1);
+    background: rgb(255 255 255 / 0.8);
+    border-bottom-color: rgb(51 51 51 / 0.1);
   }
   .site-header.tint-dark {
-    background: rgb(18 17 15 / 0.72);
-    border-bottom-color: rgb(239 233 222 / 0.1);
+    background: rgb(11 11 11 / 0.8);
+    border-bottom-color: rgb(255 255 255 / 0.12);
   }
 }
 
@@ -167,14 +167,14 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 /* Client logo grid: a true checker at 2, 3 and 5 columns, worked out from row and column */
-.logo-grid > li[data-c2='1'] { background: rgb(229 221 207 / 0.5); }
+.logo-grid > li[data-c2='1'] { background: rgb(244 244 245 / 1); }
 @media (width >= 40rem) {
   .logo-grid > li[data-c2='1'] { background: none; }
-  .logo-grid > li[data-c3='1'] { background: rgb(229 221 207 / 0.5); }
+  .logo-grid > li[data-c3='1'] { background: rgb(244 244 245 / 1); }
 }
 @media (width >= 64rem) {
   .logo-grid > li[data-c3='1'] { background: none; }
-  .logo-grid > li[data-c5='1'] { background: rgb(229 221 207 / 0.5); }
+  .logo-grid > li[data-c5='1'] { background: rgb(244 244 245 / 1); }
 }
 
 /* Line reveals clip each line to its box; with tight display leading that would cut descenders (g, y)

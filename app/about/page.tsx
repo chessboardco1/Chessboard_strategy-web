@@ -39,7 +39,7 @@ export default function AboutPage() {
       <section data-tone="light" aria-label="Why chess" className="bg-box">
         <div className="wrap section-y">
           <p className="mb-10 text-[15px] text-ink-3">Why chess</p>
-          <ScrubWords className="display max-w-[24ch] text-[clamp(32px,4.4vw,68px)] leading-[1.1] text-ebony" from="#cfc5b4">
+          <ScrubWords className="display max-w-[24ch] text-[clamp(32px,4.4vw,68px)] leading-[1.1] text-ebony" from="#d4d4d4">
             Chess rewards the player who thinks three moves ahead, protects the king and wastes nothing. That is how we treat a brand’s growth. Every move has a reason, and every piece has a job.
           </ScrubWords>
         </div>
