@@ -4,14 +4,7 @@ Everything on the site comes from `lib/content.ts`, except the privacy policy an
 
 ## Case studies (`lib/content.ts` → `work`)
 
-| Project | What is mock |
-|---|---|
-| Kiran Hospital: heart transplant film | Brief, the three "moves" and the result |
-| 1990 by Crazy Bite | Brief, moves, result |
-| Topboy event | **Client name** (guessed as Topby Pizza from the file name "topboy-event"; please confirm), title, brief, moves, result |
-| Gagme × Tyla | Title, brief, moves, result |
-
-Real results with numbers (enquiries, reach, sales) would make these pages much stronger.
+Eight case studies draw on the account of the engagement in Ankesh Prasad’s public LinkedIn projects and link to that source. The other six describe the supplied films. Add campaign or sales figures when the project team can verify them. [Ankesh Prasad’s LinkedIn projects](https://www.linkedin.com/in/ankeshprasad/)
 
 ## The team (`lib/content.ts` → `team`)
 

@@ -46,7 +46,8 @@ export function Header() {
     if (open) lenis?.stop(); else lenis?.start();
   }, [open, lenis]);
 
-  const dark = tone === 'dark' || open;
+  const onWorkBoard = !compact && (pathname === '/work' || pathname === '/work/');
+  const dark = tone === 'dark' || open || onWorkBoard;
   const tinted = compact && !open;
   return (
     <>

@@ -13,7 +13,7 @@ export function Footer() {
       <div className="wrap pb-10 pt-24">
         <div className="grid gap-x-10 gap-y-14 border-t border-chalk/10 pt-14 sm:grid-cols-2 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <img src="/brand/logo_white.png" alt={site.name} width={180} height={30} className="h-[28px] w-auto" />
+            <img src="/brand/logo_white.png" alt={site.name} width={180} height={30} loading="lazy" decoding="async" className="h-[28px] w-auto" />
             <address className="mt-8 not-italic leading-relaxed text-chalk-2">
               {site.address.map((l) => (
                 <span key={l} className="block">{l}</span>

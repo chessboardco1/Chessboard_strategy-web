@@ -1,24 +1,50 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-/** A muted film that only loads and plays while it is on screen. */
-export function Film({ src, poster, label, className }: { src: string; poster?: string; label: string; className?: string }) {
+/** A muted loop that starts loading and playing when it enters the viewport. */
+export function Film({ src, poster, label, className }: { src: string; poster?: string; label?: string; className?: string }) {
   const ref = useRef<HTMLVideoElement>(null);
+  const [playingSrc, setPlayingSrc] = useState<string | null>(null);
+
   useEffect(() => {
-    const v = ref.current;
-    if (!v) return;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          if (!v.src) v.src = src;
-          v.play().catch(() => {});
-        } else v.pause();
-      },
-      { rootMargin: '100px' },
-    );
-    io.observe(v);
-    return () => io.disconnect();
+    const video = ref.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        if (!video.hasAttribute('src')) video.src = src;
+        video.play().catch(() => {});
+      } else video.pause();
+    }, { threshold: 0.01 });
+
+    observer.observe(video);
+    return () => {
+      observer.disconnect();
+      if (!video.hasAttribute('src')) return;
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+    };
   }, [src]);
-  return <video ref={ref} poster={poster} muted loop playsInline preload="none" aria-label={label} className={className} />;
+
+  return (
+    <div className={`relative ${className ?? ''}`}>
+      {poster && <img src={poster} alt="" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />}
+      <video
+        key={src}
+        ref={ref}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-label={label}
+        aria-hidden={label ? undefined : true}
+        onPlaying={() => setPlayingSrc(src)}
+        onError={() => setPlayingSrc(null)}
+        className={`absolute inset-0 size-full object-cover transition-opacity duration-300 ${playingSrc === src ? 'opacity-100' : 'opacity-0'}`}
+      />
+    </div>
+  );
 }

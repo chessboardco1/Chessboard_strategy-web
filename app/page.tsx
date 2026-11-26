@@ -25,8 +25,8 @@ export default function Home() {
         <div aria-hidden="true" className="absolute inset-0">
           <Film
             src="/media/BTS/office-landscape.mp4"
-            label=""
-            className="h-full w-full object-cover"
+            poster="/media/BTS/office-landscape.webp"
+            className="size-full"
           />
           <div className="absolute inset-0 bg-ebony/80" />
         </div>

@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
 import { TLink } from '@/components/motion/BoardTransition';
-import { gsap, useGSAP, prefersReducedMotion } from '@/lib/gsap';
+import { Film } from '@/components/work/Film';
+import { WorkLogo } from '@/components/work/WorkLogo';
+import { prefersReducedMotion } from '@/lib/gsap';
 import type { Work } from '@/lib/content';
 
 /** How many times larger the square under the pointer grows, and how far (in squares) the swell reaches. */
@@ -10,6 +12,7 @@ const MAG = 2.6;
 const SPREAD = 0.9;
 const LIGHT = '#1f1f1f';
 const DARK = '#141414';
+const HEADER_HEIGHT = 88;
 
 type Spot = { col: number; row: number };
 type Plan = { s: number; cols: number; rows: number; left: number; top: number; spots: Spot[] };
@@ -37,7 +40,9 @@ function layout(width: number, height: number, count: number, seed: number): Pla
     // a square counts as visible when no more than 15% of it is cut off
     const visible = (n: number, start: number, limit: number) =>
       Array.from({ length: n }, (_, i) => i).filter((i) => start + i * s >= -s * 0.15 && start + (i + 1) * s <= limit + s * 0.15);
-    return { s, cols, rows, left, top, visCols: visible(cols, left, width), visRows: visible(rows, top, height) };
+    // Draw the board behind the fixed header and keep clickable tiles clear of it.
+    const visRows = visible(rows, top, height).filter((row) => top + row * s >= HEADER_HEIGHT);
+    return { s, cols, rows, left, top, visCols: visible(cols, left, width), visRows };
   };
 
   const largest = Math.floor(Math.min(260, Math.max(64, Math.min(width, height) / 2.4)));
@@ -119,50 +124,40 @@ type TileHandlers = {
   onBlur: () => void;
 };
 
-function Tile({ w, spot, active, handlers }: { w: Work; spot: Spot; active: boolean; handlers: TileHandlers }) {
-  const video = useRef<HTMLVideoElement>(null);
-
-  // the film loads and plays only while its square is the active one
-  useEffect(() => {
-    const v = video.current;
-    if (!v) return;
-    if (active) {
-      if (!v.src) v.src = w.video;
-      v.play().catch(() => {});
-    } else v.pause();
-  }, [active, w.video]);
+function Tile({ w, spot, plan, active, armed, handlers }: { w: Work; spot: Spot; plan: Plan; active: boolean; armed: boolean; handlers: TileHandlers }) {
+  const left = spot.col === 0 ? -plan.left : 0;
+  const right = spot.col === plan.cols - 1 ? -plan.left : 0;
+  const bottom = spot.row === plan.rows - 1 ? -plan.top : 0;
 
   return (
     <TLink
       href={`/work/${w.slug}`}
+      prefetch={false}
       data-work
-      aria-label={`${w.client}, ${w.kind}: ${w.title}`}
-      style={{ gridColumn: spot.col + 1, gridRow: spot.row + 1 }}
-      className="relative z-[2] block overflow-hidden bg-ebony-2 outline-none"
+      aria-label={w.title === w.client ? `${w.client}, ${w.kind}` : `${w.client}, ${w.kind}: ${w.title}`}
+      style={{ gridColumn: spot.col + 1, gridRow: spot.row + 1, paddingLeft: left, paddingRight: right, paddingBottom: bottom }}
+      className="relative z-[2] block overflow-hidden bg-box-2 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-move"
       {...handlers}
     >
-      <video
-        ref={video}
-        poster={w.poster}
-        muted
-        loop
-        playsInline
-        preload="none"
-        aria-hidden="true"
-        className={`absolute inset-0 h-full w-full object-cover transition-[filter] duration-500 ${active ? '' : 'brightness-[0.82] saturate-[0.85]'}`}
-      />
+      <WorkLogo client={w.client} projectLogo={w.logo} />
+      {active && (
+        <div className="pointer-events-none absolute inset-0">
+          <Film src={w.video} className="size-full" />
+        </div>
+      )}
       <span
         aria-hidden="true"
         className={`pointer-events-none absolute inset-0 transition-opacity duration-500 ${active ? 'opacity-100' : 'opacity-0'}`}
         style={{ background: 'linear-gradient(to top, rgb(11 11 11 / 0.85), rgb(11 11 11 / 0) 55%)' }}
       />
       <span aria-hidden="true" className={`pointer-events-none absolute inset-0 ring-2 ring-inset ring-move transition-opacity duration-300 ${active ? 'opacity-100' : 'opacity-0'}`} />
-      <span aria-hidden="true" className="absolute left-0 top-0 block size-2.5 bg-move" />
+      <span aria-hidden="true" className="absolute top-0 block size-2.5 bg-move" style={{ left }} />
       <span
         aria-hidden="true"
-        className={`pointer-events-none absolute inset-x-0 bottom-0 p-[7%] text-chalk transition-[opacity,transform] duration-500 ease-[var(--ease-move)] ${active ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'}`}
+        className={`pointer-events-none absolute p-[7%] text-chalk transition-[opacity,transform] duration-500 ease-[var(--ease-move)] ${active ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'}`}
+        style={{ left, right, bottom }}
       >
-        <span className="block truncate text-[12px] text-chalk-2">{w.kind}</span>
+        <span className="block truncate text-[12px] text-chalk-2">{armed ? 'Tap again to open' : w.kind}</span>
         <span className="display mt-1 block truncate text-[clamp(16px,1.6vw,26px)] leading-[1.05]">{w.client}</span>
       </span>
     </TLink>
@@ -177,21 +172,17 @@ export function WorkDock({ items }: { items: Work[] }) {
   const [size, setSize] = useState<{ w: number; h: number } | null>(null);
   const [seed] = useState(() => Math.floor(Math.random() * 2147483646));
   const [active, setActive] = useState<number | null>(null);
-  const [armedHint, setArmedHint] = useState(false);
-  const [touchFirst, setTouchFirst] = useState(false);
+  const [armed, setArmed] = useState<number | null>(null);
 
   const plan = useMemo(() => (size ? layout(size.w, size.h, items.length, seed) : null), [size, items.length, seed]);
   const planRef = useRef<Plan | null>(null);
   const reduced = useRef(false);
   const pointerType = useRef('mouse');
   const pressing = useRef(false);
-  const armed = useRef<number | null>(null);
-  const played = useRef(false);
   const m = useRef({ x: 0, y: 0, tx: 0, ty: 0, amt: 0, target: 0, raf: 0, last: 0 });
 
   useEffect(() => {
     reduced.current = prefersReducedMotion();
-    setTouchFirst(window.matchMedia('(hover: none)').matches);
   }, []);
 
   useEffect(() => {
@@ -294,8 +285,7 @@ export function WorkDock({ items }: { items: Work[] }) {
     pressing.current = true;
     // a tap on an empty square puts the board back
     if (e.pointerType === 'touch' && !(e.target as Element).closest('[data-work]')) {
-      armed.current = null;
-      setArmedHint(false);
+      setArmed(null);
       setActive(null);
       release();
     } else onMove(e);
@@ -316,17 +306,18 @@ export function WorkDock({ items }: { items: Work[] }) {
     },
     // on touch the first tap previews the work and the second opens it
     onClick: (e) => {
-      if (pointerType.current === 'touch' && armed.current !== i) {
+      if (e.detail > 0 && pointerType.current === 'touch' && armed !== i) {
         e.preventDefault();
-        armed.current = i;
-        setArmedHint(true);
+        setArmed(i);
         setActive(i);
         focusAt(s.col + 0.5, s.row + 0.5);
       }
     },
     onFocus: () => {
-      setActive(i);
-      if (!pressing.current) focusAt(s.col + 0.5, s.row + 0.5);
+      if (!pressing.current) {
+        setActive(i);
+        focusAt(s.col + 0.5, s.row + 0.5);
+      }
     },
     onBlur: () => {
       setActive((a) => (a === i ? null : a));
@@ -344,23 +335,6 @@ export function WorkDock({ items }: { items: Work[] }) {
     };
   }, []);
 
-  // the squares ripple out from the centre, then the works drop onto their squares
-  useGSAP(
-    () => {
-      if (!plan || played.current || prefersReducedMotion()) return;
-      played.current = true;
-      gsap.from('[data-sq]', {
-        opacity: 0,
-        scale: 0.4,
-        duration: 0.7,
-        ease: 'power3.out',
-        stagger: { grid: [plan.rows, plan.cols], from: 'center', amount: 0.6 },
-      });
-      gsap.from('[data-work]', { opacity: 0, scale: 0.5, duration: 0.9, ease: 'back.out(1.6)', delay: 0.45, stagger: 0.08 });
-    },
-    { scope: area, dependencies: [plan] },
-  );
-
   const squares = useMemo(() => {
     if (!plan) return [];
     const out: Spot[] = [];
@@ -369,13 +343,12 @@ export function WorkDock({ items }: { items: Work[] }) {
   }, [plan]);
 
   const shown = plan ? items.slice(0, plan.spots.length) : [];
-  const current = active === null ? null : items[active];
 
   return (
-    <section data-tone="dark" aria-labelledby="work-title" className="flex h-[100svh] min-h-[560px] flex-col bg-ebony pt-[88px] text-chalk">
+    <section data-tone="dark" aria-label="Work chessboard" className="work-board h-svh bg-ebony text-chalk">
       <div
         ref={area}
-        className="relative min-h-0 flex-1 touch-pan-y overflow-hidden"
+        className="relative h-full touch-pan-y overflow-hidden"
         onPointerMove={(e) => e.pointerType !== 'touch' && onMove(e)}
         onPointerDown={onAreaDown}
         onPointerLeave={onAreaLeave}
@@ -394,7 +367,7 @@ export function WorkDock({ items }: { items: Work[] }) {
             }}
           >
             {squares.map(({ col, row }) => (
-              <div key={`${col}:${row}`} data-sq aria-hidden="true" style={{ gridColumn: col + 1, gridRow: row + 1, background: (col + row) % 2 ? DARK : LIGHT }} />
+              <div key={`${col}:${row}`} aria-hidden="true" style={{ gridColumn: col + 1, gridRow: row + 1, background: (col + row) % 2 ? DARK : LIGHT }} />
             ))}
             <div
               ref={spot}
@@ -403,32 +376,12 @@ export function WorkDock({ items }: { items: Work[] }) {
               style={{ background: 'radial-gradient(circle 320px at var(--mx, 50%) var(--my, 50%), rgb(153 102 255 / 0.16), transparent)' }}
             />
             {shown.map((w, i) => (
-              <Tile key={w.slug} w={w} spot={plan.spots[i]} active={active === i} handlers={handlersFor(i, plan.spots[i])} />
+              <Tile key={w.slug} w={w} spot={plan.spots[i]} plan={plan} active={active === i} armed={armed === i} handlers={handlersFor(i, plan.spots[i])} />
             ))}
           </div>
         )}
       </div>
 
-      <div className="border-t border-chalk/10">
-        <div className="wrap flex flex-wrap items-end justify-between gap-x-10 gap-y-3 py-5 md:py-6">
-          <div>
-            <h1 id="work-title" className="display text-[clamp(30px,3.4vw,52px)] leading-none">Moves we have made</h1>
-            <p className="mt-2 text-[14px] text-chalk-3">
-              {String(items.length).padStart(2, '0')} cases · {touchFirst ? 'Tap a square to preview' : 'Hover the board to look closer'}
-            </p>
-          </div>
-          <div aria-live="polite" className="min-h-[52px] text-left sm:text-right">
-            {current && (
-              <>
-                <p className="display text-[clamp(22px,2vw,30px)] leading-[1.1]">{current.client}</p>
-                <p className="mt-1 text-[14px] text-chalk-2">
-                  {current.title} · <span className="text-move">{armedHint ? 'Tap again to open' : 'Click to open'}</span>
-                </p>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
     </section>
   );
 }

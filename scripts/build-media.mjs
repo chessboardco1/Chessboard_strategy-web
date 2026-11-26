@@ -35,7 +35,7 @@ for (const [slug, file] of Object.entries(films)) {
 
 const clients = ['1990-black-logo', 'b-him-logo', 'frameboxx-logo', 'kc-fixit-logo', 'kiran-hospital-logo', 'kiran-solar-logo', 'macwin-logo', 'minicub-s', 'netcarat-logo', 'sajori-logo', 'the-grind-logo', 'topby-pizza-logo', 'z-eggss-logo'];
 for (const c of clients) {
-  await sharp(path.join(SITE, 'client-logos', `${c}.png`)).resize({ width: 400, withoutEnlargement: true }).png({ compressionLevel: 9 }).toFile(`public/clients/${c}.png`);
+  await sharp(path.join(SITE, 'client-logos', `${c}.png`)).resize({ width: 400, withoutEnlargement: true }).webp({ quality: 88 }).toFile(`public/clients/${c}.webp`);
 }
 for (const l of ['logo', 'logo_white']) {
   await sharp(path.join(SITE, `${l}.png`)).resize({ width: 960 }).png({ compressionLevel: 9 }).toFile(`public/brand/${l}.png`);

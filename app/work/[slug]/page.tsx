@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Film } from '@/components/work/Film';
+import { WorkLogo } from '@/components/work/WorkLogo';
 import { YourMove } from '@/components/YourMove';
 import { TLink } from '@/components/motion/BoardTransition';
 import { ClipReveal, FadeUp, RevealLines } from '@/components/motion/Text';
@@ -33,8 +34,12 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
         <div className="wrap pb-20 pt-[168px] md:pt-[200px]">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px] text-ink-3">
             <TLink href="/work" className="hover:text-ink">Work</TLink>
-            <span aria-hidden="true" className="block size-1.5 bg-ink-3" />
-            <span>{w.client}</span>
+            {w.client !== w.title && (
+              <>
+                <span aria-hidden="true" className="block size-1.5 bg-ink-3" />
+                <span>{w.client}</span>
+              </>
+            )}
             <span aria-hidden="true" className="block size-1.5 bg-ink-3" />
             <span>{w.kind}</span>
           </div>
@@ -47,7 +52,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
           <div className="lg:col-span-5 lg:col-start-1">
             <div className="lg:sticky lg:top-28">
               <ClipReveal className="mx-auto aspect-[9/16] max-h-[78svh] bg-ebony">
-                <Film src={w.video} poster={w.poster} label={`${w.client}: ${w.kind}`} className="h-full w-full object-cover" />
+                <Film src={w.video} poster={w.poster} label={`${w.client}: ${w.kind}`} className="size-full" />
               </ClipReveal>
             </div>
           </div>
@@ -72,15 +77,22 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
             <FadeUp>
               <h2 className="text-[15px] text-ink-3">The result</h2>
               <p className="display mt-5 text-[clamp(26px,2.6vw,40px)] leading-[1.18] text-ebony">{w.result}</p>
+              {w.source && (
+                <p className="mt-6 text-sm text-ink-2">
+                  <a href={w.source.href} className="link-line">{w.source.label}</a>
+                </p>
+              )}
             </FadeUp>
-            <FadeUp>
-              <h2 className="text-[15px] text-ink-3">Services on this project</h2>
-              <ul className="mt-5 flex flex-col gap-2">
-                {used.map((s) => (
-                  <li key={s.slug}><TLink href={`/services/${s.slug}`} className="link-line text-[18px] font-medium">{s.name.charAt(0).toUpperCase() + s.name.slice(1)}</TLink></li>
-                ))}
-              </ul>
-            </FadeUp>
+            {used.length > 0 && (
+              <FadeUp>
+                <h2 className="text-[15px] text-ink-3">Services on this project</h2>
+                <ul className="mt-5 flex flex-col gap-2">
+                  {used.map((s) => (
+                    <li key={s.slug}><TLink href={`/services/${s.slug}`} className="link-line text-[18px] font-medium">{s.name.charAt(0).toUpperCase() + s.name.slice(1)}</TLink></li>
+                  ))}
+                </ul>
+              </FadeUp>
+            )}
           </div>
         </div>
       </section>
@@ -95,8 +107,8 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
             <span className="display t-xl mt-6 block transition-transform duration-700 ease-[var(--ease-move)] group-hover:translate-x-4">{next.client}</span>
           </div>
           <div className="md:col-span-3 md:col-start-10">
-            <div className="aspect-[4/5] overflow-hidden">
-              <img src={next.poster} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.4s] ease-[var(--ease-move)] group-hover:scale-105" />
+            <div className="aspect-[4/3] overflow-hidden">
+              <WorkLogo client={next.client} projectLogo={next.logo} />
             </div>
           </div>
         </TLink>

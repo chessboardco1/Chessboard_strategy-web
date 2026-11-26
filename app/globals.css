@@ -166,6 +166,13 @@ html.lenis, html.lenis body { height: auto; }
   font-size: 15px;
 }
 
+/* Show a checkerboard before the Work layout is measured. */
+.work-board {
+  --board-repeat: clamp(128px, 22vw, 400px);
+  background-image: conic-gradient(#1f1f1f 25%, #141414 25% 50%, #1f1f1f 50% 75%, #141414 75%);
+  background-size: var(--board-repeat) var(--board-repeat);
+}
+
 /* Client logo grid: a true checker at 2, 3 and 5 columns, worked out from row and column */
 .logo-grid > li[data-c2='1'] { background: rgb(244 244 245 / 1); }
 @media (width >= 40rem) {

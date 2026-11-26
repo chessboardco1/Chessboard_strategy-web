@@ -11,6 +11,7 @@ import { gsap, useGSAP, prefersReducedMotion } from '@/lib/gsap';
 // and the margins. Width follows from the 9:14 films. Phones use a fixed width instead.
 const TILE = 'w-[74vw] max-w-[340px] md:w-[calc(var(--tile-h)*9/14)] md:max-w-none';
 const FRAME = 'relative aspect-[9/14] overflow-hidden md:aspect-auto md:h-[var(--tile-h)]';
+const featuredWork = work.slice(0, 4);
 
 function Tile({ w }: { w: Work }) {
   return (
@@ -100,7 +101,7 @@ export function WorkReel() {
       >
         {/* the same intro inside the reel from 768 px; the phone copy above carries the id */}
         <Intro className="hidden w-[30vw] shrink-0 md:block" />
-        {work.map((w) => (
+        {featuredWork.map((w) => (
           <Tile key={w.slug} w={w} />
         ))}
         <EndCard />

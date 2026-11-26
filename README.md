@@ -22,7 +22,7 @@ npm run typecheck  # TypeScript check
 | Path | What |
 |---|---|
 | `lib/content.ts` | All copy: services, case studies, insights, studio details. Edit content here |
-| `app/` | Pages: home, services (+6), work (+4), about, insights (+6), contact, privacy, 404, sitemap, robots, share image |
+| `app/` | Home, services and service details, work and case studies, about, insights and articles, contact, privacy, 404, sitemap, robots, and share image |
 | `components/three/` | 3D scenes: hero knights, the board scene, single pieces, and the shared piece library (`pieces.ts`) |
 | `components/motion/` | Smooth scroll, the responsive board page transition, and text reveals |
 | `public/models/` | Compressed GLB models: `knights.glb` (hero), `set.glb` (board + piece positions), `pieces-v2.glb` (one matching set, smoothed at build time) |

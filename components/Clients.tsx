@@ -31,7 +31,7 @@ export function Clients({ title = 'Brands we have played with' }: { title?: stri
               className="flex aspect-[5/3] items-center justify-center"
               variants={{ hidden: { opacity: 0, scale: 0.9 }, show: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } } }}
             >
-              <img src={c.logo} alt={c.name} loading="lazy" style={{ width: logoWidth(c.ratio) }} className="h-auto max-h-[62%] object-contain opacity-80 mix-blend-multiply grayscale transition-[filter,opacity] duration-500 hover:opacity-100 hover:grayscale-0" />
+              <img src={c.logo} alt={c.name} loading="lazy" decoding="async" style={{ width: logoWidth(c.ratio) }} className="h-auto max-h-[62%] object-contain opacity-80 mix-blend-multiply grayscale transition-[filter,opacity] duration-500 hover:opacity-100 hover:grayscale-0" />
             </motion.li>
           ))}
         </motion.ul>
