@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Film } from '@/components/work/Film';
+import { CaseReels } from '@/components/work/CaseReels';
 import { WorkLogo } from '@/components/work/WorkLogo';
 import { YourMove } from '@/components/YourMove';
 import { TLink } from '@/components/motion/BoardTransition';
-import { ClipReveal, FadeUp, RevealLines } from '@/components/motion/Text';
+import { FadeUp, RevealLines } from '@/components/motion/Text';
 import { services, work } from '@/lib/content';
+import { getWorkReels } from '@/lib/work-reels';
 
 export const dynamicParams = false;
 
@@ -27,11 +28,12 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
   const w = work[index];
   const next = work[(index + 1) % work.length];
   const used = services.filter((s) => w.services.includes(s.slug));
+  const reels = await getWorkReels(w);
 
   return (
     <>
       <section data-tone="light" className="bg-box">
-        <div className="wrap pb-20 pt-[168px] md:pt-[200px]">
+        <div className="wrap pb-12 pt-[144px] md:pb-16 md:pt-[176px]">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px] text-ink-3">
             <TLink href="/work" className="hover:text-ink">Work</TLink>
             {w.client !== w.title && (
@@ -48,19 +50,16 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
       </section>
 
       <section data-tone="light" className="bg-box">
-        <div className="wrap grid gap-16 section-b lg:grid-cols-12">
-          <div className="lg:col-span-5 lg:col-start-1">
-            <div className="lg:sticky lg:top-28">
-              <ClipReveal className="mx-auto aspect-[9/16] max-h-[78svh] bg-ebony">
-                <Film src={w.video} poster={w.poster} label={`${w.client}: ${w.kind}`} className="size-full" />
-              </ClipReveal>
+        <div className="wrap section-b grid items-start gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-[clamp(3rem,5vw,5rem)]">
+          <CaseReels client={w.client} reels={reels} />
+          <div className="flex min-w-0 flex-col gap-12 lg:gap-16">
+            <div className="border-t border-ink/15 pt-6">
+              <h2 className="flex items-center gap-3 text-[15px] font-medium text-ink-2">
+                <span aria-hidden="true" className="size-2 bg-move" />
+                The brief
+              </h2>
+              <p className="display mt-5 text-[clamp(25px,2.2vw,34px)] leading-[1.22] text-ebony">{w.brief}</p>
             </div>
-          </div>
-          <div className="flex flex-col gap-24 lg:col-span-6 lg:col-start-7 lg:pt-24">
-            <FadeUp>
-              <h2 className="text-[15px] text-ink-3">The brief</h2>
-              <p className="display mt-5 text-[clamp(26px,2.6vw,40px)] leading-[1.18] text-ebony">{w.brief}</p>
-            </FadeUp>
             <div>
               <h2 className="text-[15px] text-ink-3">The moves</h2>
               <ol className="mt-5">

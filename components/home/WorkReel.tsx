@@ -1,110 +1,93 @@
 'use client';
 
-import { useRef, type CSSProperties } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TLink } from '@/components/motion/BoardTransition';
-import { CaseCue } from '@/components/work/CaseCue';
 import { Film } from '@/components/work/Film';
-import { work, type Work } from '@/lib/content';
-import { gsap, useGSAP, prefersReducedMotion } from '@/lib/gsap';
+import type { Work } from '@/lib/content';
+import styles from './WorkReel.module.css';
 
-// Every tile is one height, worked out from the screen: the full height less the header, the caption
-// and the margins. Width follows from the 9:14 films. Phones use a fixed width instead.
-const TILE = 'w-[74vw] max-w-[340px] md:w-[calc(var(--tile-h)*9/14)] md:max-w-none';
-const FRAME = 'relative aspect-[9/14] overflow-hidden md:aspect-auto md:h-[var(--tile-h)]';
-const featuredWork = work.slice(0, 4);
+type Project = Pick<Work, 'slug' | 'client' | 'kind' | 'poster' | 'video'>;
 
-function Tile({ w }: { w: Work }) {
-  return (
-    <TLink
-      href={`/work/${w.slug}`}
-      data-tile
-      className={`group flex shrink-0 snap-start flex-col gap-4 ${TILE}`}
-    >
-      <div className={`${FRAME} bg-ebony`}>
-        <Film src={w.video} poster={w.poster} label={`${w.client}: ${w.kind}`} className="h-full w-full object-cover transition-transform duration-[1.4s] ease-[var(--ease-move)] group-hover:scale-[1.04]" />
-        <CaseCue />
-      </div>
-      <div className="flex items-baseline justify-between gap-4">
-        <span className="font-medium">{w.client}</span>
-        <span className="text-[15px] text-ink-2">{w.kind}</span>
-      </div>
-    </TLink>
-  );
-}
+export function WorkReel({ projects }: { projects: Project[] }) {
+  const board = useRef<HTMLDivElement>(null);
+  const [edges, setEdges] = useState({ start: true, end: false });
 
-/** The last card: same size as the films, so the reel ends on it with nothing after. */
-function EndCard() {
-  return (
-    <TLink href="/work" data-tile className={`group flex shrink-0 snap-start flex-col gap-4 ${TILE}`}>
-      <div className={`${FRAME} flex flex-col justify-between bg-ebony p-7 text-chalk`}>
-        <span aria-hidden="true" className="relative block h-3">
-          <span className="absolute left-0 top-0 block size-3 bg-move transition-[left] duration-700 ease-[var(--ease-move)] group-hover:left-[calc(100%-12px)]" />
-        </span>
-        <span className="display text-[clamp(34px,3.2vw,56px)] leading-[1.02]">See every case</span>
-      </div>
-      <div className="flex items-baseline justify-between gap-4">
-        <span className="font-medium">All projects</span>
-        <span className="text-[15px] text-ink-2">{work.length} films and campaigns</span>
-      </div>
-    </TLink>
-  );
-}
+  useEffect(() => {
+    const scroller = board.current;
+    if (!scroller) return;
 
-function Intro({ className = '', id }: { className?: string; id?: string }) {
-  return (
-    <div className={className}>
-      <h2 id={id} className="display t-xl text-ebony">Selected work</h2>
-      <p className="lede mt-6 max-w-[26rem] text-ink-2">Films, campaigns and launches made for the brands we plan with</p>
-      <TLink href="/work" className="link-line mt-8 inline-block font-medium">All projects</TLink>
-    </div>
-  );
-}
+    function update() {
+      if (!scroller) return;
+      const start = scroller.scrollLeft < 1;
+      const end = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 1;
+      setEdges((previous) => previous.start === start && previous.end === end ? previous : { start, end });
+    }
 
-/** Pinned horizontal reel of case films from 768 px; a swipe carousel that snaps on phones. */
-export function WorkReel() {
-  const section = useRef<HTMLElement>(null);
-  const track = useRef<HTMLDivElement>(null);
+    const observer = new ResizeObserver(update);
+    observer.observe(scroller);
+    scroller.addEventListener('scroll', update, { passive: true });
+    return () => {
+      observer.disconnect();
+      scroller.removeEventListener('scroll', update);
+    };
+  }, []);
 
-  useGSAP(
-    () => {
-      if (prefersReducedMotion()) return;
-      const mm = gsap.matchMedia();
-      mm.add('(min-width: 768px)', () => {
-        const el = track.current!;
-        // the track ends at the last card plus the page margin, so the reel stops on that card
-        const distance = () => Math.max(0, el.scrollWidth - window.innerWidth);
-        gsap.to(el, {
-          x: () => -distance(),
-          ease: 'none',
-          scrollTrigger: { trigger: section.current, start: 'top top', end: () => `+=${distance()}`, pin: true, scrub: 0.8, invalidateOnRefresh: true },
-        });
-        gsap.from('[data-tile]', { opacity: 0, y: 60, stagger: 0.1, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: section.current, start: 'top 70%', once: true } });
-      });
-      return () => mm.revert();
-    },
-    { scope: section },
-  );
+  function move(direction: number) {
+    const scroller = board.current;
+    const square = scroller?.querySelector('li')?.offsetWidth;
+    if (!scroller || !square) return;
+
+    const columns = Math.max(1, Math.floor(scroller.clientWidth / square) - 1);
+    scroller.scrollBy({ left: direction * columns * square });
+  }
 
   return (
-    <section
-      ref={section}
-      id="work"
-      data-tone="light"
-      aria-labelledby="work-title"
-      style={{ '--tile-h': 'clamp(300px, calc(100svh - 250px), 720px)' } as CSSProperties}
-      className="section-y relative overflow-hidden bg-box md:flex md:h-[100svh] md:items-center md:pb-0 md:pt-16"
-    >
-      <Intro id="work-title" className="wrap md:hidden" />
+    <section id="work" data-tone="light" aria-labelledby="work-title" className={styles.section}>
+      <div className={`wrap ${styles.heading}`}>
+        <h2 id="work-title" className="display t-l text-ebony">Selected work</h2>
+        <TLink href="/work" className="link-line shrink-0 font-medium">All projects</TLink>
+      </div>
+
       <div
-        ref={track}
-        className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-[clamp(20px,4vw,64px)] pb-2 [scroll-padding-inline:clamp(20px,4vw,64px)] [scrollbar-width:none] md:mt-0 md:snap-none md:items-center md:gap-[4vw] md:overflow-visible md:pb-0 [&::-webkit-scrollbar]:hidden"
+        id="selected-work-board"
+        ref={board}
+        role="region"
+        aria-label="Project chessboard"
+        tabIndex={0}
+        data-lenis-prevent-horizontal
+        className={styles.board}
       >
-        {/* the same intro inside the reel from 768 px; the phone copy above carries the id */}
-        <Intro className="hidden w-[30vw] shrink-0 md:block" />
-        {featuredWork.map((w) => (
-          <Tile key={w.slug} w={w} />
-        ))}
-        <EndCard />
+        <ul className={styles.track}>
+          {projects.map((project) => (
+            <li key={project.slug} className={styles.column}>
+              <TLink href={`/work/${project.slug}`} prefetch={false} className={styles.project}>
+                <div className={styles.image} aria-hidden="true">
+                  <img src={project.poster} alt="" loading="lazy" decoding="async" />
+                  <div className={styles.preview}>
+                    <Film src={project.video} className="size-full" />
+                  </div>
+                </div>
+                <div className={styles.caption}>
+                  <span aria-hidden="true" className={styles.mark} />
+                  <span className={styles.kind}>{project.kind}</span>
+                  <span className={`display ${styles.client}`}>{project.client}</span>
+                </div>
+              </TLink>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className={`wrap ${styles.footer}`}>
+        <p>{projects.length} case studies</p>
+        <div className={styles.controls}>
+          <button type="button" aria-controls="selected-work-board" disabled={edges.start} onClick={() => move(-1)}>
+            Previous<span className="sr-only"> projects</span>
+          </button>
+          <button type="button" aria-controls="selected-work-board" disabled={edges.end} onClick={() => move(1)}>
+            Next<span className="sr-only"> projects</span>
+          </button>
+        </div>
       </div>
     </section>
   );

@@ -160,6 +160,7 @@ export type Work = {
   kind: string;
   video: string;
   poster: string;
+  reelFolder?: string;
   logo?: string;
   brief: string;
   moves: string[];
@@ -214,6 +215,7 @@ export const work: Work[] = [
     kind: 'Event film',
     video: '/media/topboy-event.mp4',
     poster: '/media/topboy-event.webp',
+    reelFolder: 'topboy',
     brief: 'TopBoy Pizza wanted diners in Surat to discover it as a premium Neapolitan pizzeria. The brief was to give people reasons to visit, come back and recommend it while protecting margins.',
     moves: [
       'Study how Surat diners discover pizzerias, what they look for and how local competitors position themselves',

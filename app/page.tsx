@@ -10,7 +10,7 @@ import { TeamBoard } from "@/components/home/TeamBoard";
 import { YourMove } from "@/components/YourMove";
 import { TLink } from "@/components/motion/BoardTransition";
 import { FadeUp, RevealLines, ScrubWords } from "@/components/motion/Text";
-import { insights, process } from "@/lib/content";
+import { insights, process, work } from "@/lib/content";
 
 export default function Home() {
   return (
@@ -46,7 +46,7 @@ export default function Home() {
 
       <Growth />
 
-      <WorkReel />
+      <WorkReel projects={work.map(({ slug, client, kind, poster, video }) => ({ slug, client, kind, poster, video }))} />
 
       <section
         data-tone="dark"
