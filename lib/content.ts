@@ -13,8 +13,14 @@ export const site = {
   facebook: 'https://www.facebook.com/profile.php?id=61587739146532',
   linkedin: '', // [LinkedIn company URL]
   description:
-    'Chessboard Strategy is a Surat-based strategy partner that plans marketing, advertising, websites and sales follow-up as one connected system for growing brands.',
+    'Chessboard Strategy is a Surat-based growth studio helping businesses reach the right customers through strategy, performance marketing, content and websites.',
 };
+
+export const legacyPerformanceSlug = 'performance-advertising';
+
+export function resolveContentSlug(slug: string) {
+  return slug === legacyPerformanceSlug ? 'performance-marketing' : slug;
+}
 
 export type PieceType = 'king' | 'queen' | 'rook' | 'bishop' | 'knight' | 'pawn';
 
@@ -73,20 +79,20 @@ export const services: Service[] = [
     insight: 'leadership-alignment',
   },
   {
-    slug: 'performance-advertising',
-    name: 'Performance advertising',
-    line: 'Campaigns built around return on spend',
+    slug: 'performance-marketing',
+    name: 'Performance Marketing',
+    line: 'From first click to qualified leads and sales',
     piece: 'rook',
-    intro: 'We plan, launch and optimise paid campaigns around measurable acquisition, not vanity traffic or disconnected creative tests',
-    problem: 'Launching ads is easy. Building a reliable acquisition channel takes discipline: the right message, a landing page that converts, and tracking that shows what really works.',
+    intro: 'We connect paid media, creative testing, landing pages and sales feedback so you can see which campaigns bring in qualified leads and customers.',
+    problem: 'Clicks and form fills can look promising while sales stay flat. When campaigns, landing pages and follow-up are measured separately, it is hard to see what to fix or where to invest next.',
     structure: [
-      'Audience and offer testing strategy',
-      'Creative angles and landing page alignment',
-      'Campaign setup across selected platforms',
-      'Weekly optimisation and reporting cadence',
+      'Audience research and clear acquisition goals',
+      'Paid campaigns and creative testing on relevant channels',
+      'Landing page improvements and conversion tracking',
+      'Regular reviews of lead quality, acquisition cost and sales',
     ],
-    outcome: 'Cleaner spend decisions, stronger campaign learning and a performance loop that improves with data.',
-    insight: 'performance-advertising',
+    outcome: 'See where qualified demand comes from, where buyers drop off and which campaigns deserve more budget.',
+    insight: 'performance-marketing',
   },
   {
     slug: 'social-media-strategy',
@@ -321,7 +327,7 @@ const projects: Omit<Work, 'video' | 'poster' | 'preview'>[] = [
       'Create an explainer that uses a panel cutaway, a rooftop animation and short Hindi and English captions to show how sunlight becomes electricity',
     ],
     result: 'The engagement gives marketing and field sales a shared process for evaluating leads and tracking which enquiries become projects.',
-    services: ['performance-advertising', 'revenue-and-sales-optimisation'],
+    services: ['performance-marketing', 'revenue-and-sales-optimisation'],
     source: ankeshProjectNotes,
   },
   {
@@ -422,21 +428,21 @@ export const work: Work[] = projects.map((project) => ({
 }));
 
 export const clients = [
-  { name: '1990 by Crazy Bite', logo: '/images/clients/1990-black-logo.webp', ratio: 1.31 },
-  { name: 'B-Him Medico', logo: '/images/clients/b-him-logo.webp', ratio: 3.37 },
-  { name: 'Bishnupriya', logo: '/images/clients/bishnupriya-logo.webp', ratio: 0.8 },
-  { name: 'Frameboxx', logo: '/images/clients/frameboxx-logo.webp', ratio: 3.27 },
-  { name: 'KC Fixit', logo: '/images/clients/kc-fixit-logo.webp', ratio: 4.26 },
-  { name: 'Kiran Hospital', logo: '/images/clients/kiran-hospital-logo.webp', ratio: 6.25 },
-  { name: 'Kiran Solar', logo: '/images/clients/kiran-solar-logo.webp', ratio: 1.21 },
-  { name: 'Macwin', logo: '/images/clients/macwin-logo.webp', ratio: 3.19 },
-  { name: 'Minicubs', logo: '/images/clients/minicub-s.webp', ratio: 2.32 },
-  { name: 'Netcarat', logo: '/images/clients/netcarat-logo.webp', ratio: 6.78 },
-  { name: 'Sajori', logo: '/images/clients/sajori-logo.webp', ratio: 2.43 },
-  { name: 'Samruddhi Industries', logo: '/images/clients/samruddhi-logo.webp', ratio: 1.26 },
-  { name: 'The Grind', logo: '/images/clients/the-grind-logo.webp', ratio: 4.12 },
-  { name: 'TopBoy Pizza', logo: '/images/clients/topby-pizza-logo.webp', ratio: 0.7 },
-  { name: 'Z-Eggss', logo: '/images/clients/z-eggss-logo.webp', ratio: 1.86 },
+  { name: '1990 by Crazy Bite', caseSlug: '1990-by-crazy-bite', logo: '/images/clients/1990-black-logo.webp', ratio: 1.31 },
+  { name: 'B-Him Medico', caseSlug: 'bhim', logo: '/images/clients/b-him-logo.webp', ratio: 3.37 },
+  { name: 'Bishnupriya', caseSlug: 'bishnupriya', logo: '/images/clients/bishnupriya-logo.webp', ratio: 0.8, logoScale: 2 },
+  { name: 'Frameboxx', caseSlug: 'frameboxx', logo: '/images/clients/frameboxx-logo.webp', ratio: 3.27 },
+  { name: 'KC Fixit', caseSlug: 'kc-fixit', logo: '/images/clients/kc-fixit-logo.webp', ratio: 4.26 },
+  { name: 'Kiran Hospital', caseSlug: 'kiran-hospital-heart-transplant', logo: '/images/clients/kiran-hospital-logo.webp', ratio: 6.25 },
+  { name: 'Kiran Solar', caseSlug: 'kiran-solar', logo: '/images/clients/kiran-solar-logo.webp', ratio: 1.21 },
+  { name: 'Macwin', caseSlug: 'macwin', logo: '/images/clients/macwin-logo.webp', ratio: 3.19 },
+  { name: 'Minicubs', caseSlug: 'minicubs', logo: '/images/clients/minicub-s.webp', ratio: 2.32 },
+  { name: 'Netcarat', caseSlug: 'netcarat', logo: '/images/clients/netcarat-logo.webp', ratio: 6.78 },
+  { name: 'Sajori', caseSlug: 'sajori', logo: '/images/clients/sajori-logo.webp', ratio: 2.43 },
+  { name: 'Samruddhi Industries', caseSlug: 'samruddhi-industries', logo: '/images/clients/samruddhi-logo.webp', ratio: 1.26 },
+  { name: 'The Grind', caseSlug: 'the-grind', logo: '/images/clients/the-grind-logo.webp', ratio: 4.12 },
+  { name: 'TopBoy Pizza', caseSlug: 'topboy-event', logo: '/images/clients/topby-pizza-logo.webp', ratio: 0.7 },
+  { name: 'Z-Eggss', caseSlug: 'z-eggss', logo: '/images/clients/z-eggss-logo.webp', ratio: 1.86 },
 ];
 
 export const founder = {
@@ -459,13 +465,13 @@ export type TeamMember = { piece: PieceType; square: string; name: string; role:
 export const team: TeamMember[] = [
   { piece: 'king', square: 'e5', name: 'Ankesh Prasad', role: 'Founder', line: 'Sets the strategy and keeps every other piece working towards it.' },
   { piece: 'queen', square: 'd5', name: '', role: 'Strategy lead', line: 'Turns the plan into priorities, budgets and measures.' },
-  { piece: 'rook', square: 'g5', name: '', role: 'Performance advertising', line: 'Runs paid media across Meta and Google, and owns the numbers.' },
+  { piece: 'rook', square: 'g5', name: '', role: 'Performance Marketing', line: 'Tests campaigns across Meta and Google, then uses lead quality and sales feedback to decide what to improve or scale.' },
   { piece: 'bishop', square: 'c4', name: '', role: 'Creative direction', line: 'Shapes how every campaign looks, sounds and feels.' },
   { piece: 'knight', square: 'f4', name: '', role: 'Content and social', line: 'Plans and writes what goes out every week, on every channel.' },
   { piece: 'pawn', square: 'c3', name: '', role: 'Video editing', line: 'Cuts the films, reels and ads.' },
   { piece: 'pawn', square: 'd3', name: '', role: 'Design', line: 'Builds the visuals, from posts to brand kits.' },
-  { piece: 'pawn', square: 'e3', name: '', role: 'Production', line: 'Plans and runs every shoot.' },
-  { piece: 'pawn', square: 'f3', name: '', role: 'Web development', line: 'Builds and looks after the websites.' },
+  { piece: 'pawn', square: 'e3', name: '', role: 'Photo and video shoots', line: 'Plans shoot days and captures the product, people and places that bring each campaign to life.' },
+  { piece: 'pawn', square: 'f3', name: '', role: 'Websites and landing pages', line: 'Builds fast pages that explain the offer, answer buyer questions and make it easy to enquire or buy.' },
 ];
 
 /**
@@ -490,10 +496,10 @@ export const diagrams: Record<string, Diagram> = {
     moves: [['e2', 'e4']],
     caption: 'Every move claims the centre for a reason',
   },
-  'performance-advertising': {
+  'performance-marketing': {
     position: 'Ke1 Qd1 Bc1 Nc3 Pd4 Pe2 ke8 qd8 be7 nf6 pd5 pe6',
     moves: [['c1', 'g5']],
-    caption: 'Spend where the pressure lands',
+    caption: 'Follow the move through to the outcome',
   },
   'website-growth-asset': {
     position: 'Ke1 Rh1 Be2 Nf3 Pd3 Pe4 Pf2 Pg2 Ph2 kg8 rf8 qd8 pf7 pg7 ph7',
@@ -521,8 +527,8 @@ export const insights: Insight[] = [
   {
     slug: 'strategy-before-spend',
     category: 'Strategy',
-    title: 'Strategy before spend: why clarity beats budget',
-    summary: 'Money can increase reach, but it cannot fix unclear positioning, weak offers or a disconnected sales process.',
+    title: 'What to fix before you increase ad spend',
+    summary: 'Clarify who the offer is for, give people a reason to act and make sure your team can follow up before you buy more reach.',
     body: [
       { p: 'Many businesses try to solve growth problems by spending more. They increase ad budgets, publish more content or launch new campaigns without first asking whether the core system is clear. The result is activity without compounding returns.' },
       { h2: 'Clarity comes first' },
@@ -537,8 +543,8 @@ export const insights: Insight[] = [
   {
     slug: 'revenue-engine',
     category: 'Growth',
-    title: 'Build a revenue engine, not random campaigns',
-    summary: 'Campaigns create movement. A revenue engine creates rhythm, accountability and repeatable growth.',
+    title: 'How to connect campaigns to sales',
+    summary: 'Give content, ads, landing pages and sales follow-up each a clear job so you can see where buyers drop off.',
     body: [
       { p: 'A campaign can generate leads for a short period, but a revenue engine keeps learning after every touchpoint. It connects marketing, sales, content, tracking and operations into one system.' },
       { h2: 'What makes it an engine' },
@@ -553,8 +559,8 @@ export const insights: Insight[] = [
   {
     slug: 'social-media-with-intent',
     category: 'Social',
-    title: 'Social media with intent: from content to conversion',
-    summary: 'Social content should do more than fill a calendar. It should build trust, shape demand and move buyers closer to action.',
+    title: 'How to plan social content that builds trust',
+    summary: 'Give each post a purpose, from answering common questions and showing your work to inviting an enquiry.',
     body: [
       { p: 'Posting consistently is useful, but consistency without direction is not strategy. A brand needs content that explains what it solves, why it matters and why the audience should trust it.' },
       { h2: 'Every post needs a job' },
@@ -567,26 +573,26 @@ export const insights: Insight[] = [
     ],
   },
   {
-    slug: 'performance-advertising',
+    slug: 'performance-marketing',
     category: 'Performance',
-    title: 'Performance advertising that actually performs',
-    summary: 'Better ads are not only about budget. They are about message, measurement, funnel quality and disciplined learning.',
+    title: 'Performance marketing from first click to sale',
+    summary: 'Follow the full journey from campaign creative to lead quality and sales so you can see where to improve and what to scale.',
     body: [
-      { p: 'Performance advertising becomes expensive when it is treated like a button instead of a system. Launching ads is easy. Building a reliable acquisition channel requires much more discipline.' },
-      { h2: 'Target the right problem' },
-      { p: 'If the message is too broad, the wrong audience clicks. If the landing page is vague, the right audience leaves. If the offer is weak, the campaign cannot create strong intent. The campaign must match the buyer’s stage and pain point.' },
-      { h2: 'Creative testing needs structure' },
-      { p: 'Testing more creatives is not enough. Each test should answer a question. Does the buyer respond to pain, outcome, proof, urgency or authority? Structured testing turns ad spend into learning.' },
-      { h2: 'What to track' },
-      { ul: ['Cost per qualified lead, not only cost per form fill', 'Landing page conversion rate and drop-off points', 'Lead quality feedback from sales', 'Creative themes that create high-intent responses'] },
-      { p: 'When performance advertising is connected to strategy, sales and tracking, the business can scale with more confidence and less waste.' },
+      { p: 'A campaign can bring in cheap leads and still cost the sales team time. Define the outcome first, whether that is a qualified enquiry, a booked consultation or a purchase. Then work back through the steps a customer takes to get there.' },
+      { h2: 'Match the promise to the page' },
+      { p: 'Carry the campaign’s offer onto the landing page in the same language. Give visitors the proof they need to act and make the next step clear. If people click and then leave without enquiring, review the page alongside the campaign.' },
+      { h2: 'Test one question at a time' },
+      { p: 'Start with a question you can act on. Does a customer story attract more qualified leads than a product demo? Keep the offer and landing page consistent while you test the message. Use sales feedback to decide which creative deserves more reach.' },
+      { h2: 'Track the outcomes that matter' },
+      { ul: ['Cost per qualified enquiry or customer', 'Where visitors drop off between click and conversion', 'Which leads progress to conversations and sales', 'Acquisition cost alongside the revenue it brings in'] },
+      { p: 'Review these numbers together with your sales team. The results can tell you whether to improve the campaign, simplify the landing page or change the follow-up before you put more budget behind it.' },
     ],
   },
   {
     slug: 'website-growth-asset',
     category: 'Web',
-    title: 'Your website is a growth asset, not a brochure',
-    summary: 'A website should do more than look polished. It should help the right visitor understand, trust and act.',
+    title: 'How to turn website visits into enquiries',
+    summary: 'Organise your pages around the questions buyers ask and give them a clear way to take the next step.',
     body: [
       { p: 'Many websites describe the company but do not guide the buyer. They look presentable, yet they leave visitors unsure about what is offered, why it matters or what to do next.' },
       { h2: 'Conversion starts with clarity' },
@@ -601,8 +607,8 @@ export const insights: Insight[] = [
   {
     slug: 'leadership-alignment',
     category: 'Leadership',
-    title: 'Leadership alignment: the hidden growth multiplier',
-    summary: 'Growth gets easier when leadership, marketing, sales and operations agree on the same direction.',
+    title: 'How leaders can align marketing and sales',
+    summary: 'Agree on who to reach, what to sell and how to measure progress so teams can make better decisions together.',
     body: [
       { p: 'Marketing problems are often business alignment problems in disguise. If leadership, sales and marketing define success differently, the business will struggle to execute with focus.' },
       { h2: 'Alignment reduces waste' },

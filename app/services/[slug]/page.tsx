@@ -5,24 +5,24 @@ import { WorkGrid } from '@/components/work/WorkGrid';
 import { YourMove } from '@/components/YourMove';
 import { TLink } from '@/components/motion/BoardTransition';
 import { FadeUp, RevealLines, ScrubWords } from '@/components/motion/Text';
-import { insights, pieces, services, work } from '@/lib/content';
+import { insights, legacyPerformanceSlug, pieces, resolveContentSlug, services, work } from '@/lib/content';
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return services.map((s) => ({ slug: s.slug }));
+  return [...services.map((s) => ({ slug: s.slug })), { slug: legacyPerformanceSlug }];
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const s = services.find((x) => x.slug === slug);
+  const s = services.find((x) => x.slug === resolveContentSlug(slug));
   if (!s) return {};
   return { title: s.name.charAt(0).toUpperCase() + s.name.slice(1), description: s.intro, alternates: { canonical: `/services/${s.slug}` } };
 }
 
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const index = services.findIndex((x) => x.slug === slug);
+  const index = services.findIndex((x) => x.slug === resolveContentSlug(slug));
   if (index < 0) notFound();
   const s = services[index];
   const next = services[(index + 1) % services.length];

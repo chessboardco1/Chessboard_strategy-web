@@ -2,9 +2,11 @@
 
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
+import { preload } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { ChessDiagram } from '@/components/ChessDiagram';
 import { SceneBoundary } from '@/components/three/SceneBoundary';
+import { GROWTH_BOARD_MODEL } from '@/components/three/models';
 import { pieces } from '@/lib/content';
 import { useCanRender3D, useInView } from '@/components/three/visibility';
 import { ScrollTrigger, useGSAP, prefersReducedMotion } from '@/lib/gsap';
@@ -21,10 +23,10 @@ export function Growth() {
   const progress = useRef(0);
   const [active, setActive] = useState(0);
   const can3D = useCanRender3D();
-  const near = useInView(section, '640px 0px');
+  const approaching = useInView(section, '1400px 0px');
+  const visible = useInView(section, '0px');
   const [mounted, setMounted] = useState(false);
   const [boardReady, setBoardReady] = useState(false);
-  useEffect(() => { if (near) setMounted(true); }, [near]);
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -33,6 +35,12 @@ export function Growth() {
     preference.addEventListener('change', update);
     return () => preference.removeEventListener('change', update);
   }, []);
+
+  useEffect(() => {
+    if (!approaching || !can3D || reduced) return;
+    preload(GROWTH_BOARD_MODEL, { as: 'fetch', crossOrigin: 'anonymous', fetchPriority: 'low' });
+    setMounted(true);
+  }, [approaching, can3D, reduced]);
 
   useGSAP(
     () => {
@@ -85,7 +93,7 @@ export function Growth() {
         <div className={`absolute inset-0 transition-opacity duration-300 ease-out ${boardReady ? 'opacity-100' : 'opacity-0'}`}>
           {can3D && mounted && (
             <SceneBoundary onError={() => setBoardReady(false)}>
-              <BoardScene progress={progress} order={order} active={near} onReady={() => setBoardReady(true)} />
+              <BoardScene progress={progress} order={order} active={visible} onReady={() => setBoardReady(true)} />
             </SceneBoundary>
           )}
         </div>

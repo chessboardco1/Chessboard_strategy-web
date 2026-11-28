@@ -1,13 +1,14 @@
 'use client';
 
 import { motion } from 'motion/react';
+import { TLink } from '@/components/motion/BoardTransition';
 import { clients } from '@/lib/content';
 
 /** 1 when the square at index i is a dark square in a grid of `cols` columns */
 const shade = (i: number, cols: number) => ((Math.floor(i / cols) + (i % cols)) % 2 ? 1 : 0);
 
 /** Equal visual area for every logo: width grows with the square root of its width-to-height ratio */
-const logoWidth = (ratio: number) => `${Math.min(70, 26 * Math.sqrt(ratio)).toFixed(1)}%`;
+const logoWidth = (ratio: number, scale = 1) => `${Math.min(70, scale * 26 * Math.sqrt(ratio)).toFixed(1)}%`;
 
 /** Client logos, set out like pieces: each square appears in turn across the grid. */
 export function Clients({ title = 'Brands we have played with' }: { title?: string }) {
@@ -28,10 +29,25 @@ export function Clients({ title = 'Brands we have played with' }: { title?: stri
               data-c2={shade(i, 2)}
               data-c3={shade(i, 3)}
               data-c5={shade(i, 5)}
-              className="flex aspect-[5/3] items-center justify-center"
+              className="aspect-[5/3]"
               variants={{ hidden: { opacity: 0, scale: 0.9 }, show: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } } }}
             >
-              <img src={c.logo} alt={c.name} loading="lazy" decoding="async" style={{ width: logoWidth(c.ratio) }} className="h-auto max-h-[62%] object-contain opacity-80 mix-blend-multiply grayscale transition-[filter,opacity] duration-500 hover:opacity-100 hover:grayscale-0" />
+              <TLink
+                href={`/work/${c.caseSlug}`}
+                aria-label={`${c.name} case study`}
+                prefetch={false}
+                className="group relative flex size-full items-center justify-center transition-colors hover:bg-move/8 focus-visible:bg-move/8 focus-visible:-outline-offset-4"
+              >
+                <img
+                  src={c.logo}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  style={{ width: logoWidth(c.ratio, c.logoScale), maxHeight: c.logoScale ? '88%' : '62%' }}
+                  className="h-auto object-contain opacity-80 mix-blend-multiply grayscale transition-[filter,opacity] duration-500 group-hover:opacity-100 group-hover:grayscale-0 group-focus-visible:opacity-100 group-focus-visible:grayscale-0"
+                />
+                <span aria-hidden="true" className="absolute right-3 bottom-2 text-sm text-ink-2 opacity-60 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 [@media(hover:hover)]:opacity-0">↗</span>
+              </TLink>
             </motion.li>
           ))}
         </motion.ul>

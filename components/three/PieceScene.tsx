@@ -5,7 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { ContactShadows } from '@react-three/drei';
 import { Suspense, useRef, type MutableRefObject } from 'react';
 import { Studio, damp, easeOut, usePointer } from './shared';
-import { usePieceGeometries, usePieceMaterials } from './pieces';
+import { preloadPieceGeometries, usePieceGeometries, usePieceMaterials } from './pieces';
 import type { PieceType } from '@/lib/content';
 
 const HEIGHT = 2.6;
@@ -45,3 +45,5 @@ export default function PieceScene({ type, tone = 'ebony', progress }: { type: P
     </Canvas>
   );
 }
+
+preloadPieceGeometries();

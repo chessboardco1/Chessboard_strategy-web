@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { TLink } from '@/components/motion/BoardTransition';
 import { ChessDiagram } from '@/components/ChessDiagram';
 import { diagrams, readingMinutes, type Insight } from '@/lib/content';
@@ -12,17 +12,25 @@ import { diagrams, readingMinutes, type Insight } from '@/lib/content';
  */
 function usePlay() {
   const ref = useRef<HTMLAnchorElement>(null);
+  const reduced = useReducedMotion();
   const [hover, setHover] = useState(false);
   const [seen, setSeen] = useState(false);
   useEffect(() => {
     const el = ref.current;
-    if (!el || !window.matchMedia('(hover: none)').matches) return;
+    if (!el || reduced || !window.matchMedia('(hover: none)').matches) return;
+    let start: number | undefined;
     const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { window.setTimeout(() => setSeen(true), 500); io.disconnect(); }
+      if (e.isIntersecting) {
+        start = window.setTimeout(() => setSeen(true), 500);
+        io.disconnect();
+      }
     }, { threshold: 0.6 });
     io.observe(el);
-    return () => io.disconnect();
-  }, []);
+    return () => {
+      io.disconnect();
+      window.clearTimeout(start);
+    };
+  }, [reduced]);
   const bind = {
     ref,
     onPointerEnter: () => setHover(true),
@@ -30,7 +38,7 @@ function usePlay() {
     onFocus: () => setHover(true),
     onBlur: () => setHover(false),
   };
-  return { play: hover || seen, bind };
+  return { play: !reduced && (hover || seen), bind, reduced };
 }
 
 const reveal = {
@@ -42,9 +50,9 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 function Featured({ post }: { post: Insight }) {
   const d = diagrams[post.slug];
-  const { play, bind } = usePlay();
+  const { play, bind, reduced } = usePlay();
   return (
-    <motion.div {...reveal} transition={{ duration: 0.9, ease }} className="lg:col-span-7">
+    <motion.div {...reveal} initial={reduced ? false : reveal.initial} transition={{ duration: 0.9, ease }} className="lg:col-span-7">
       <TLink href={`/insights/${post.slug}`} {...bind} className="group grid gap-8 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-1 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] xl:items-end">
         {d && <ChessDiagram position={d.position} moves={d.moves} play={play} className="max-w-[560px] border border-ink/10" />}
         <div>
@@ -60,9 +68,9 @@ function Featured({ post }: { post: Insight }) {
 
 function Small({ post, i }: { post: Insight; i: number }) {
   const d = diagrams[post.slug];
-  const { play, bind } = usePlay();
+  const { play, bind, reduced } = usePlay();
   return (
-    <motion.li {...reveal} transition={{ duration: 0.9, ease, delay: 0.1 + i * 0.08 }} className="border-t border-ink/10 first:border-t-0 lg:first:border-t">
+    <motion.li {...reveal} initial={reduced ? false : reveal.initial} transition={{ duration: 0.9, ease, delay: 0.1 + i * 0.08 }} className="border-t border-ink/10 first:border-t-0 lg:first:border-t">
       <TLink href={`/insights/${post.slug}`} {...bind} className="group grid grid-cols-[96px_minmax(0,1fr)] gap-5 py-8 sm:grid-cols-[136px_minmax(0,1fr)] sm:gap-7">
         {d ? <ChessDiagram position={d.position} moves={d.moves} play={play} className="border border-ink/10" /> : <span />}
         <div>

@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
+import { ActionLink } from '@/components/ActionLink';
 import { TLink } from '@/components/motion/BoardTransition';
 import { SceneBoundary } from '@/components/three/SceneBoundary';
 import { useCanRender3D, useInView } from '@/components/three/visibility';
@@ -64,13 +65,10 @@ export function Hero() {
             Growth, planned like a game of chess
           </h1>
           <p className="hero-enter mt-6 max-w-[31rem] text-pretty text-base leading-relaxed text-ink-2 [--hero-delay:90ms] md:text-lg lg:text-xl">
-            Marketing, advertising, your website and sales follow-up, played as one connected game, so every move sets up the next.
+            We help growing brands decide what to say, who to reach, and how to turn that attention into qualified leads and sales.
           </p>
           <div className="hero-enter mt-8 flex flex-wrap items-center gap-x-6 gap-y-4 [--hero-delay:180ms]">
-            <TLink href="/contact" className="btn-move btn-dark max-md:btn-compact">
-              <span className="sq" aria-hidden="true" />
-              <span className="relative">Get in touch</span>
-            </TLink>
+            <ActionLink href="/contact">Get in touch</ActionLink>
             <TLink href="/work" className="link-line font-medium">See our work</TLink>
           </div>
         </div>

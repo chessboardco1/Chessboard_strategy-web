@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "assets:models": "node scripts/build-models.mjs",
     "assets:pieces": "node scripts/build-pieces.mjs",
+    "assets:growth-board": "node scripts/build-growth-board.mjs",
     "assets:media": "node scripts/build-media.mjs"
   },
   "dependencies": {

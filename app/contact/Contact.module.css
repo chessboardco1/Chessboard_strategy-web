@@ -1,0 +1,110 @@
+.channels {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.channels > li {
+  min-width: 0;
+}
+
+.channel {
+  --channel-accent: #dcc2ff;
+  --channel-tint: #302141;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "icon copy arrow";
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 5.25rem;
+  height: 100%;
+  padding: 0.75rem;
+  border: 1px solid #34313a;
+  border-radius: 0.5rem;
+  background: var(--color-ebony-2);
+  transition: background-color 200ms, border-color 200ms;
+}
+
+.channel[data-channel='whatsapp'] {
+  --channel-accent: #9ae7ba;
+  --channel-tint: #1d372c;
+}
+
+.channel[data-channel='instagram'] {
+  --channel-accent: #ffb7dc;
+  --channel-tint: #3b2736;
+}
+
+.channel[data-channel='facebook'] {
+  --channel-accent: #adc9ff;
+  --channel-tint: #25334e;
+}
+
+.channel:is(:hover, :focus-visible) {
+  border-color: var(--channel-accent);
+  background: var(--channel-tint);
+}
+
+.icon {
+  grid-area: icon;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  aspect-ratio: 1;
+  border-radius: 0.35rem;
+  background: var(--channel-tint);
+  color: var(--channel-accent);
+}
+
+.copy {
+  grid-area: copy;
+  min-width: 0;
+}
+
+.label {
+  display: block;
+  font-size: clamp(1.3rem, 2vw, 1.65rem);
+  line-height: 1.15;
+}
+
+.detail {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--color-chalk-2);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.arrow {
+  grid-area: arrow;
+  justify-self: end;
+  color: var(--channel-accent);
+  font: 1.1rem system-ui, sans-serif;
+  transition: transform 240ms var(--ease-move);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .channel:is(:hover, :focus-visible) .arrow {
+    transform: translate(2px, -2px);
+  }
+}
+
+@media (width >= 40rem) {
+  .channels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .channel {
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "icon arrow" "copy copy";
+    grid-template-rows: auto 1fr;
+    align-items: start;
+    gap: 0.9rem;
+    padding: clamp(0.85rem, 1.4vw, 1.2rem);
+  }
+
+  .arrow {
+    align-self: center;
+  }
+}

@@ -1,3 +1,4 @@
+import { ActionLink } from '@/components/ActionLink';
 import { PieceStage } from '@/components/PieceStage';
 import { TLink } from '@/components/motion/BoardTransition';
 
@@ -10,10 +11,7 @@ export default function NotFound() {
           <h1 className="display t-hero mt-6">Illegal move</h1>
           <p className="lede mt-8 max-w-[30rem] text-chalk-2">Even a knight cannot reach this square. The page may have moved, or the link was mistyped.</p>
           <div className="mt-10 flex flex-wrap items-center gap-8">
-            <TLink href="/" className="btn-move btn-light">
-              <span className="sq" aria-hidden="true" />
-              <span className="relative">Back to the board</span>
-            </TLink>
+            <ActionLink href="/" tone="light">Back to the board</ActionLink>
             <TLink href="/contact" className="link-line font-medium">Tell us what you were looking for</TLink>
           </div>
         </div>

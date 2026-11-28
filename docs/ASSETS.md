@@ -30,4 +30,4 @@ Place source files under `_assets-source/site/` and run `npm run assets:media` t
 
 Use the case slug from `lib/content.ts` for the work folder. Name the main film `film.mp4`, `film.mov`, or `film.webm`. Additional reels in the same folder appear after the main film in numeric filename order. For a custom poster, use the same filename stem as the film in the matching poster folder. The script generates a first-frame poster when the source poster is absent.
 
-Case films retain their audio when present and play on demand. Work previews use up to six seconds of the main film. The muted studio loops and work previews load when visible, and use still artwork when reduced motion or data saving is on.
+Case films retain their audio when present. They start muted and loop when visible, with playback and sound controls available on the player. Work previews use up to six seconds of the main film. Case films, studio loops and work previews use still artwork when reduced motion or data saving is on until the visitor starts playback where controls are available.

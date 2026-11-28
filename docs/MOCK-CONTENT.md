@@ -14,10 +14,10 @@ The home page "board room" shows the team as chess pieces. Only the founder is r
 |---|---|
 | King | Ankesh Prasad, Founder (real; the one-line description is new copy) |
 | Queen | Strategy lead |
-| Rook | Performance advertising |
+| Rook | Performance Marketing |
 | Bishop | Creative direction |
 | Knight | Content and social |
-| Pawns | Video editing, Design, Production, Web development |
+| Pawns | Video editing, Design, Photo and video shoots, Websites and landing pages |
 
 For each person, supply a name, role and one line on what they own. The homepage shows the role and description, with a name when available.
 

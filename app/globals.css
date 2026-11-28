@@ -96,36 +96,74 @@ html.lenis, html.lenis body { height: auto; }
   }
   .link-line:hover { animation: line-redraw 0.7s var(--ease-move); }
 
-  /* The purple fill expands from the square and retracts to the same spot. */
-  .btn-move {
-    --sq-inset: 22px;
-    --sq-size: 10px;
-    --sq-gap: 14px;
-    --sq-edge: calc((100% - var(--sq-size)) / 2);
+  .action-link {
+    --action-ink: #fff9ff;
+    --action-fill: #31194e;
+    --action-hover: #47236c;
+    --action-accent: #c19cff;
     position: relative;
     isolation: isolate;
-    overflow: hidden;
     display: inline-flex;
     align-items: center;
-    height: 56px;
-    padding: 0 var(--sq-inset) 0 calc(var(--sq-inset) + var(--sq-size) + var(--sq-gap));
+    justify-content: space-between;
+    gap: clamp(0.85rem, 2vw, 1.4rem);
+    min-height: 52px;
+    padding: 0.65rem 1.1rem;
+    color: var(--action-ink);
     font-weight: 500;
-    font-size: 16px;
-    border-radius: 2px;
-    transition: color 0.34s var(--ease-move);
+    font-size: 1rem;
+    line-height: 1.2;
   }
-  .btn-move .sq {
+  .action-link::before {
+    content: '';
     position: absolute;
     z-index: -1;
     inset: 0;
-    background: var(--color-move);
-    clip-path: inset(var(--sq-edge) calc(100% - var(--sq-inset) - var(--sq-size)) var(--sq-edge) var(--sq-inset));
-    transition: clip-path 0.45s var(--ease-move);
+    background: var(--action-fill);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    transition: background-color 220ms;
   }
-  .btn-dark { background: var(--color-ebony); color: var(--color-chalk); }
-  .btn-light { background: var(--color-box); color: var(--color-ebony); }
-  .btn-move:is(:hover, :focus-visible) { color: var(--color-ebony); }
-  .btn-move:is(:hover, :focus-visible) .sq { clip-path: inset(0); }
+  .action-link::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 3px;
+    background: var(--action-accent);
+    transform: scaleX(0.22);
+    transform-origin: left;
+    transition: transform 320ms var(--ease-move);
+  }
+  .action-link[data-tone-style='light'] {
+    --action-ink: #21132e;
+    --action-fill: #dec9ff;
+    --action-hover: #f0e4ff;
+    --action-accent: #6b39ac;
+  }
+  .action-link[data-compact] {
+    min-height: 44px;
+    padding-inline: 0.9rem;
+    gap: 0.95rem;
+    font-size: 0.9375rem;
+  }
+  .action-link-arrow {
+    flex: none;
+    color: var(--action-accent);
+    font-family: system-ui, sans-serif;
+    font-size: 1.25em;
+    transition: transform 320ms var(--ease-move);
+  }
+  .action-link:is(:hover, :focus-visible)::before {
+    background: var(--action-hover);
+  }
+  .action-link:is(:hover, :focus-visible)::after {
+    transform: scaleX(1);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .action-link:is(:hover, :focus-visible) .action-link-arrow {
+      transform: translate(3px, -3px);
+    }
+    .action-link:active { transform: translateY(1px); }
+  }
 
   /* Fixed header: transparent at the top, tinted and blurred once compact */
   .site-header {
@@ -145,6 +183,10 @@ html.lenis, html.lenis body { height: auto; }
     background: rgb(11 11 11 / 0.8);
     border-bottom-color: rgb(255 255 255 / 0.12);
   }
+  .site-header[data-menu-open] {
+    background: var(--color-ebony);
+    border-bottom-color: rgb(255 255 255 / 0.15);
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -156,14 +198,6 @@ html.lenis, html.lenis body { height: auto; }
 @keyframes hero-enter {
   from { opacity: 0.5; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-/* Smaller button for phones: tighter padding so it sits on one row with a text link */
-@utility btn-compact {
-  --sq-inset: 16px;
-  --sq-gap: 10px;
-  height: 48px;
-  font-size: 15px;
 }
 
 /* Show a checkerboard before the Work layout is measured. */

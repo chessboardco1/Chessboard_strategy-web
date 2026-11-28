@@ -26,7 +26,7 @@ export default function AboutPage() {
             <RevealLines as="h1" onLoad delay={0.2} className="display t-xl max-w-[12ch]">Your strategy partner, not another agency</RevealLines>
             <FadeUp delay={0.5}>
               <p className="lede mt-8 max-w-[34rem] text-chalk-2">
-                Chessboard Strategy is a growth studio in Surat. We plan the whole board for our clients, then help them play it: marketing, advertising, websites and the sales follow-up that turns attention into revenue.
+                Chessboard Strategy is a growth studio in Surat. We help businesses connect strategy, performance marketing, websites and sales follow-up so more of the right people become customers.
               </p>
             </FadeUp>
           </div>

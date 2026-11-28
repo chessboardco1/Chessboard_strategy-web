@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useReducedMotion } from 'motion/react';
-import { TLink } from '@/components/motion/BoardTransition';
+import { ActionLink } from '@/components/ActionLink';
 import { site } from '@/lib/content';
 
 /** Closing section on every page. The purple square makes a knight's move into place. */
@@ -33,10 +33,7 @@ export function YourMove({ line = 'Tell us where the business stands today. We w
         <div className="mt-14 flex flex-wrap items-end justify-between gap-10">
           <p className="lede max-w-[30rem] text-chalk-2">{line}</p>
           <div className="flex flex-wrap items-center gap-8">
-            <TLink href="/contact" className="btn-move btn-light">
-              <span className="sq" aria-hidden="true" />
-              <span className="relative">Book a strategy call</span>
-            </TLink>
+            <ActionLink href="/contact" tone="light">Book a strategy call</ActionLink>
             <a href={site.whatsapp} target="_blank" rel="noopener noreferrer" className="link-line font-medium">Message on WhatsApp</a>
           </div>
         </div>

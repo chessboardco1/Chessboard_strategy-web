@@ -29,7 +29,7 @@ npm run typecheck  # TypeScript check
 | `public/images/posters/` | Still frames for case reels and behind-the-scenes clips |
 | `public/videos/work/<case-slug>/` | Main film and additional reels for each case study |
 | `public/videos/previews/` and `public/videos/behind-the-scenes/` | Short, muted work previews and muted studio loops |
-| `public/models/` | Compressed GLB models: `knights.glb` (hero), `set.glb` (board + piece positions), `pieces-v2.glb` (one matching set, smoothed at build time) |
+| `public/models/` | Compressed GLB models for the hero knights, Growth board, board room, and individual chess pieces |
 | `scripts/` | Asset build scripts (see below) |
 | `docs/` | [Asset sources](docs/ASSETS.md) and the [launch content checklist](docs/MOCK-CONTENT.md) |
 
@@ -47,6 +47,7 @@ _assets-source/
 ```bash
 npm run assets:models   # hero knights + the board (with piece positions) → meshopt GLB with WebP textures
 npm run assets:pieces   # the piece library pieces-v2.glb (smoothed here, not in the browser) + boxwood grain texture
+npm run assets:growth-board # lighter homepage model from the committed board and piece library
 npm run assets:media    # fast-start MP4 films, short previews, and WebP posters and logos
 ```
 

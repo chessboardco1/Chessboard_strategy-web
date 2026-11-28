@@ -6,7 +6,7 @@ import { ScrubWords } from '@/components/motion/Text';
 
 export const metadata: Metadata = {
   title: 'Services',
-  description: 'Strategic marketing planning, growth consulting, performance advertising, social media, websites and sales optimisation, run as one connected system.',
+  description: 'Strategic marketing planning, growth consulting, performance marketing, social media, websites and sales optimisation, run as one connected system.',
   alternates: { canonical: '/services' },
 };
 

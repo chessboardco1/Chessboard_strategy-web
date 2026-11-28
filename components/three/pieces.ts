@@ -4,22 +4,15 @@ import * as THREE from 'three';
 import { useGLTF, useTexture } from '@react-three/drei';
 import { useMemo } from 'react';
 import type { PieceType } from '@/lib/content';
+import { PIECE_HEIGHT } from './models';
+
+export { PIECE_HEIGHT } from './models';
 
 // One library of pieces for every scene, so the whole site shows a single matching set.
 // Geometry comes from /models/pieces-v2.glb: height 1, base at y = 0, already smoothed and merged
 // into one primitive per piece at build time (scripts/build-pieces.mjs), so the browser does no geometry work.
 const MODEL = '/models/pieces-v2.glb';
 const GRAIN = '/models/boxwood-grain-v2.webp';
-
-/** Relative heights in board squares, after a tournament Staunton set. */
-export const PIECE_HEIGHT: Record<PieceType, number> = {
-  king: 1.62,
-  queen: 1.44,
-  bishop: 1.2,
-  knight: 1.06,
-  rook: 0.96,
-  pawn: 0.8,
-};
 
 const cache = new Map<PieceType, THREE.BufferGeometry>();
 
@@ -92,7 +85,10 @@ export function usePieceMaterials() {
   }, [grain]);
 }
 
-useGLTF.preload(MODEL);
+export function preloadPieceGeometries() {
+  useGLTF.preload(MODEL);
+}
+
 useTexture.preload(GRAIN);
 
 

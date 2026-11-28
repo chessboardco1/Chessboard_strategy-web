@@ -5,12 +5,12 @@ import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber'
 import { ContactShadows, useGLTF } from '@react-three/drei';
 import { Suspense, useEffect, useMemo, useRef, type MutableRefObject } from 'react';
 import { Studio, clamp01, damp, easeInOut } from './shared';
-import { PIECE_HEIGHT, usePieceGeometries, usePieceMaterials } from './pieces';
+import { PIECE_HEIGHT, preloadPieceGeometries, usePieceGeometries, usePieceMaterials } from './pieces';
 import type { TeamMember } from '@/lib/content';
 
 type Progress = MutableRefObject<number>;
 
-// The same board model as the home page board story: its hidden original pieces mark the squares.
+// The full set's original pieces mark the squares used by the team scene.
 const MODEL = '/models/set.glb';
 const MOVE = new THREE.Color('#9966ff');
 
@@ -180,3 +180,4 @@ export default function TeamBoardScene({
 }
 
 useGLTF.preload(MODEL);
+preloadPieceGeometries();

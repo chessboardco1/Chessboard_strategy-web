@@ -117,15 +117,10 @@ export default function Home() {
         className="bg-box"
       >
         <div className="wrap section-y">
-          <div className="mb-14 flex flex-wrap items-end justify-between gap-8">
-            <RevealLines id="insights-title" className="display t-l text-ebony">
-              Notes from the board
-            </RevealLines>
-            <TLink href="/insights" className="link-line font-medium">
-              All insights
-            </TLink>
-          </div>
-          <HomeNotes posts={insights.slice(0, 3)} />
+          <RevealLines id="insights-title" className="display t-l mb-14 text-ebony">
+            Notes from the board
+          </RevealLines>
+          <HomeNotes posts={insights} />
         </div>
       </section>
 
