@@ -25,8 +25,11 @@ npm run typecheck  # TypeScript check
 | `app/` | Home, services and service details, work and case studies, about, insights and articles, contact, privacy, 404, sitemap, robots, and share image |
 | `components/three/` | 3D scenes: hero knights, the board scene, single pieces, and the shared piece library (`pieces.ts`) |
 | `components/motion/` | Smooth scroll, the responsive board page transition, and text reveals |
+| `public/images/brand/` and `public/images/clients/` | WebP brand artwork and client logos |
+| `public/images/posters/` | Still frames for case reels and behind-the-scenes clips |
+| `public/videos/work/<case-slug>/` | Main film and additional reels for each case study |
+| `public/videos/previews/` and `public/videos/behind-the-scenes/` | Short, muted work previews and muted studio loops |
 | `public/models/` | Compressed GLB models: `knights.glb` (hero), `set.glb` (board + piece positions), `pieces-v2.glb` (one matching set, smoothed at build time) |
-| `public/media/` | Compressed case films and poster frames |
 | `scripts/` | Asset build scripts (see below) |
 | `docs/` | [Asset sources](docs/ASSETS.md) and the [launch content checklist](docs/MOCK-CONTENT.md) |
 
@@ -38,13 +41,13 @@ The licensed Envato sources and the original site media are not committed. Keep 
 _assets-source/
   3d/     Envato chess models (unzipped)
   fonts/  hertloom/, helvena/
-  site/   original films, client logos, brand logos, favicon
+  site/   source films, posters, and logos (see docs/ASSETS.md)
 ```
 
 ```bash
 npm run assets:models   # hero knights + the board (with piece positions) → meshopt GLB with WebP textures
 npm run assets:pieces   # the piece library pieces-v2.glb (smoothed here, not in the browser) + boxwood grain texture
-npm run assets:media    # films → 720p H.264, poster frames, logos, fonts
+npm run assets:media    # fast-start MP4 films, short previews, and WebP posters and logos
 ```
 
 The model commands use the Windows FBX converter. The normal app build uses the committed assets.

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { TLink } from '@/components/motion/BoardTransition';
 import { RevealLines } from '@/components/motion/Text';
 import { SceneBoundary } from '@/components/three/SceneBoundary';
-import { useCanRender3D, useInView } from '@/components/three/shared';
+import { useCanRender3D, useInView } from '@/components/three/visibility';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { team, type PieceType } from '@/lib/content';
 
@@ -25,9 +25,12 @@ export function TeamBoard() {
   const [active, setActive] = useState<number | null>(0);
   const can3D = useCanRender3D();
   const near = useInView(board, '180px 0px');
+  const [mounted, setMounted] = useState(false);
   const [wide, setWide] = useState(false);
   const [failed, setFailed] = useState(false);
   const showBoard = wide && can3D === true && !failed;
+
+  useEffect(() => { if (near) setMounted(true); }, [near]);
 
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 64rem)');
@@ -63,7 +66,7 @@ export function TeamBoard() {
 
         <div className={`mt-10 grid items-start gap-8 lg:mt-12 ${showBoard ? 'lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]' : ''}`}>
           <div ref={board} aria-hidden="true" className={`relative aspect-[4/3] overflow-hidden border border-chalk/10 bg-[#0b0b0b] ${showBoard ? 'hidden lg:block' : 'hidden'}`}>
-            {showBoard && (
+            {showBoard && mounted && (
               <SceneBoundary onError={() => setFailed(true)}>
                 <TeamBoardScene progress={progress} team={team} active={active} onPick={setActive} running={near} />
               </SceneBoundary>

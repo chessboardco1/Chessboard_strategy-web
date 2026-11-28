@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useRef } from 'react';
-import { useCanRender3D, useInView } from '@/components/three/shared';
+import { useCanRender3D, useInView } from '@/components/three/visibility';
 import { ScrollTrigger, useGSAP } from '@/lib/gsap';
 import type { PieceType } from '@/lib/content';
 

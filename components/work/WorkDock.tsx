@@ -142,7 +142,7 @@ function Tile({ w, spot, plan, active, armed, handlers }: { w: Work; spot: Spot;
       <WorkLogo client={w.client} projectLogo={w.logo} />
       {active && (
         <div className="pointer-events-none absolute inset-0">
-          <Film src={w.video} className="size-full" />
+          <Film src={w.preview} startDelay={180} className="size-full" />
         </div>
       )}
       <span

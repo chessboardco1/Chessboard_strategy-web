@@ -160,7 +160,7 @@ export type Work = {
   kind: string;
   video: string;
   poster: string;
-  reelFolder?: string;
+  preview: string;
   logo?: string;
   brief: string;
   moves: string[];
@@ -174,14 +174,12 @@ const ankeshProjectNotes = {
   label: 'Project notes by Ankesh Prasad on LinkedIn',
 };
 
-export const work: Work[] = [
+const projects: Omit<Work, 'video' | 'poster' | 'preview'>[] = [
   {
     slug: 'kiran-hospital-heart-transplant',
     client: 'Kiran Hospital',
     title: 'A heart transplant, told as a human story',
     kind: 'Story film',
-    video: '/media/kiran-heart-transplant.mp4',
-    poster: '/media/kiran-heart-transplant.webp',
     brief: 'Kiran Hospital wanted to reach more people online and help patients understand its care. The work focused on making healthcare information accessible while keeping clinicians and patient experiences at the centre of the story.',
     moves: [
       'Create content guidelines that help hospital teams explain medical care in clear, credible language',
@@ -197,8 +195,6 @@ export const work: Work[] = [
     client: '1990 by Crazy Bite',
     title: 'A film that takes you inside 1990',
     kind: 'Brand film',
-    video: '/media/1990-fast-cut.mp4',
-    poster: '/media/1990-fast-cut.webp',
     brief: 'This short film introduces 1990 by Crazy Bite through the experience of a visit. It starts on the path into the restaurant and moves through the kitchen, tables and coffee counter.',
     moves: [
       'Open on the entrance to establish the place before showing the menu',
@@ -213,9 +209,6 @@ export const work: Work[] = [
     client: 'TopBoy Pizza',
     title: 'Neapolitan pizza, from the kitchen to the event',
     kind: 'Event film',
-    video: '/media/topboy-event.mp4',
-    poster: '/media/topboy-event.webp',
-    reelFolder: 'topboy',
     brief: 'TopBoy Pizza wanted diners in Surat to discover it as a premium Neapolitan pizzeria. The brief was to give people reasons to visit, come back and recommend it while protecting margins.',
     moves: [
       'Study how Surat diners discover pizzerias, what they look for and how local competitors position themselves',
@@ -231,9 +224,7 @@ export const work: Work[] = [
     client: 'Gagme × Tyla',
     title: 'Gagme × Tyla',
     kind: 'Campaign film',
-    video: '/media/gagme-tyla.mp4',
-    poster: '/media/gagme-tyla.webp',
-    logo: '/clients/gagme-mark.webp',
+    logo: '/images/clients/gagme-mark.webp',
     brief: 'The Gagme × Tyla film centres on a graphic clothing collection. An industrial setting filled with car parts and machinery gives the clothes a backdrop with its own texture and movement.',
     moves: [
       'Establish the location with wide shots framed by tyres, tools and old vehicles',
@@ -248,8 +239,6 @@ export const work: Work[] = [
     client: 'Bishnupriya',
     title: 'Fashion jewellery in close-up',
     kind: 'Jewellery collection reel',
-    video: '/media/BISHNUPRIYA.mp4',
-    poster: '/media/bishnupriya.webp',
     brief: 'Bishnupriya is a fashion jewellery label whose brand mark reads “Since 2020”. This collection reel brings two statement necklaces and two pairs of earrings into close view before inviting shoppers to ask for a price.',
     moves: [
       'Frame the layered necklace against a dark display bust so the small hanging details are easy to see',
@@ -264,8 +253,6 @@ export const work: Work[] = [
     client: 'Samruddhi Industries',
     title: 'How Samruddhi makes its fabric',
     kind: 'Textile manufacturing film',
-    video: '/media/samrudhhi.mp4',
-    poster: '/media/samruddhi.webp',
     brief: 'Samruddhi Industries manufactures and supplies fabrics from Sayan, Surat. Its range includes ultra satin and organza. The film takes textile buyers onto the factory floor to show how the team works to keep fabric consistent across orders.',
     moves: [
       'Open with an on-camera explanation of what goes into making fabric consistently',
@@ -284,8 +271,6 @@ export const work: Work[] = [
     client: 'B-Him Medico',
     title: 'B-Him Medico',
     kind: 'Health education reel',
-    video: '/media/Bhim.mp4',
-    poster: '/media/bhim.webp',
     brief: 'A psychiatrist and a neurosurgeon were launching B-Him Medico, a men’s sexual wellness platform. The project started with market research and a launch plan that would make sensitive topics approachable and give people a clear path to a consultation.',
     moves: [
       'Research the category and define how the brand could communicate clinical expertise in language people felt comfortable engaging with',
@@ -301,8 +286,6 @@ export const work: Work[] = [
     client: 'Frameboxx',
     title: 'Frameboxx',
     kind: 'Admissions reel',
-    video: '/media/Framebox.mp4',
-    poster: '/media/frameboxx.webp',
     brief: 'Frameboxx Himayat Nagar uses a playful opening to announce that admissions are open. The reel turns a small interaction around a wall switch into a reveal for the institute.',
     moves: [
       'Begin in black and white as the group gathers around the switch',
@@ -317,8 +300,6 @@ export const work: Work[] = [
     client: 'KC Fixit',
     title: 'KC Fixit',
     kind: 'Product range film',
-    video: '/media/kc-fixit.mp4',
-    poster: '/media/kc-fixit.webp',
     brief: 'KC Fixit presents its tile adhesive range through conversations at a shop counter, where customers ask which product suits the job they have in mind.',
     moves: [
       'Stage the film as a series of customer conversations at a single counter',
@@ -333,8 +314,6 @@ export const work: Work[] = [
     client: 'Kiran Solar',
     title: 'Kiran Solar',
     kind: 'Solar explainer',
-    video: '/media/Kiran-solar.mp4',
-    poster: '/media/kiran-solar.webp',
     brief: 'Kiran Solar provides engineering, procurement and construction for solar projects. The brief was to generate enquiries its on-ground sales team could turn into viable projects.',
     moves: [
       'Target campaigns by buyer intent, service geography and project feasibility',
@@ -350,8 +329,6 @@ export const work: Work[] = [
     client: 'Macwin',
     title: 'Macwin',
     kind: 'Manufacturing film',
-    video: '/media/Macwin.mp4',
-    poster: '/media/macwin.webp',
     brief: 'Macwin Solar Energy manufactures solar panels in a market shaped by pricing pressure and installer networks. The work focused on sharpening its positioning and making it easier for the sales team to turn qualified enquiries into orders.',
     moves: [
       'Review brand perception, sales channels and competitors to identify regions and customer groups with stronger buying intent',
@@ -367,8 +344,6 @@ export const work: Work[] = [
     client: 'Minicubs',
     title: 'Minicubs',
     kind: 'Product showcase',
-    video: '/media/minicubs.mp4',
-    poster: '/media/minicubs.webp',
     brief: 'Minicubs makes ride-on toys and sells online and across several Indian states. The brief was to make demand more consistent across regions and give the team more ownership of day-to-day growth.',
     moves: [
       'Review how the brand is positioned, which sales channels are working and how marketing performs across regions',
@@ -384,8 +359,6 @@ export const work: Work[] = [
     client: 'Netcarat',
     title: 'Netcarat',
     kind: 'Jewellery film',
-    video: '/media/netcaret.mp4',
-    poster: '/media/netcarat.webp',
     brief: 'Netcarat sells jewellery directly to customers online. The brief was to build trust through product storytelling and make it easier for shoppers to discover the brand, place an order and return.',
     moves: [
       'Define the brand’s positioning and plan content around how customers discover and choose jewellery online',
@@ -401,8 +374,6 @@ export const work: Work[] = [
     client: 'Sajori',
     title: 'Sajori',
     kind: 'Food brand teaser',
-    video: '/media/Sajori.mp4',
-    poster: '/media/sajori.webp',
     brief: 'Sajori centres its teaser on “desi khana”. A red backdrop, brief type cues and tightly framed photographs introduce the food brand in under 15 seconds.',
     moves: [
       'Set the tone with the phrase “desi khana” on a solid red field',
@@ -417,8 +388,6 @@ export const work: Work[] = [
     client: 'The Grind',
     title: 'The Grind',
     kind: 'Marketing commentary reel',
-    video: '/media/The-grind.mp4',
-    poster: '/media/the-grind.webp',
     brief: 'Hello Fitness Magazine needed a repeatable way to sell advertising across its digital channels and The Grind’s print edition.',
     moves: [
       'Package advertising inventory, refine prices and train the sales team',
@@ -434,8 +403,6 @@ export const work: Work[] = [
     client: 'Z-Eggss',
     title: 'Z-Eggss',
     kind: 'Food product reel',
-    video: '/media/Zeggss.mp4',
-    poster: '/media/z-eggss.webp',
     brief: 'Z-Eggss shows its eggs going from trays to branded cartons. The reel puts the handling and packaging process alongside a simple invitation to order.',
     moves: [
       'Open on hands handling the eggs, then follow the cartons as they are packed together',
@@ -447,22 +414,29 @@ export const work: Work[] = [
   },
 ];
 
+export const work: Work[] = projects.map((project) => ({
+  ...project,
+  video: `/videos/work/${project.slug}/film.mp4`,
+  poster: `/images/posters/work/${project.slug}/film.webp`,
+  preview: `/videos/previews/${project.slug}.mp4`,
+}));
+
 export const clients = [
-  { name: '1990 by Crazy Bite', logo: '/clients/1990-black-logo.webp', ratio: 1.31 },
-  { name: 'B-Him Medico', logo: '/clients/b-him-logo.webp', ratio: 3.37 },
-  { name: 'Bishnupriya', logo: '/clients/BISHNUPRIYA-logo.png', ratio: 0.8 },
-  { name: 'Frameboxx', logo: '/clients/frameboxx-logo.webp', ratio: 3.27 },
-  { name: 'KC Fixit', logo: '/clients/kc-fixit-logo.webp', ratio: 4.26 },
-  { name: 'Kiran Hospital', logo: '/clients/kiran-hospital-logo.webp', ratio: 6.25 },
-  { name: 'Kiran Solar', logo: '/clients/kiran-solar-logo.webp', ratio: 1.21 },
-  { name: 'Macwin', logo: '/clients/macwin-logo.webp', ratio: 3.19 },
-  { name: 'Minicubs', logo: '/clients/minicub-s.webp', ratio: 2.32 },
-  { name: 'Netcarat', logo: '/clients/netcarat-logo.webp', ratio: 6.78 },
-  { name: 'Sajori', logo: '/clients/sajori-logo.webp', ratio: 2.43 },
-  { name: 'Samruddhi Industries', logo: '/clients/Samruddhi-logo.png', ratio: 1.26 },
-  { name: 'The Grind', logo: '/clients/the-grind-logo.webp', ratio: 4.12 },
-  { name: 'TopBoy Pizza', logo: '/clients/topby-pizza-logo.webp', ratio: 0.7 },
-  { name: 'Z-Eggss', logo: '/clients/z-eggss-logo.webp', ratio: 1.86 },
+  { name: '1990 by Crazy Bite', logo: '/images/clients/1990-black-logo.webp', ratio: 1.31 },
+  { name: 'B-Him Medico', logo: '/images/clients/b-him-logo.webp', ratio: 3.37 },
+  { name: 'Bishnupriya', logo: '/images/clients/bishnupriya-logo.webp', ratio: 0.8 },
+  { name: 'Frameboxx', logo: '/images/clients/frameboxx-logo.webp', ratio: 3.27 },
+  { name: 'KC Fixit', logo: '/images/clients/kc-fixit-logo.webp', ratio: 4.26 },
+  { name: 'Kiran Hospital', logo: '/images/clients/kiran-hospital-logo.webp', ratio: 6.25 },
+  { name: 'Kiran Solar', logo: '/images/clients/kiran-solar-logo.webp', ratio: 1.21 },
+  { name: 'Macwin', logo: '/images/clients/macwin-logo.webp', ratio: 3.19 },
+  { name: 'Minicubs', logo: '/images/clients/minicub-s.webp', ratio: 2.32 },
+  { name: 'Netcarat', logo: '/images/clients/netcarat-logo.webp', ratio: 6.78 },
+  { name: 'Sajori', logo: '/images/clients/sajori-logo.webp', ratio: 2.43 },
+  { name: 'Samruddhi Industries', logo: '/images/clients/samruddhi-logo.webp', ratio: 1.26 },
+  { name: 'The Grind', logo: '/images/clients/the-grind-logo.webp', ratio: 4.12 },
+  { name: 'TopBoy Pizza', logo: '/images/clients/topby-pizza-logo.webp', ratio: 0.7 },
+  { name: 'Z-Eggss', logo: '/images/clients/z-eggss-logo.webp', ratio: 1.86 },
 ];
 
 export const founder = {

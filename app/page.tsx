@@ -24,8 +24,8 @@ export default function Home() {
       >
         <div aria-hidden="true" className="absolute inset-0">
           <Film
-            src="/media/BTS/office-landscape.mp4"
-            poster="/media/BTS/office-landscape.webp"
+            src="/videos/behind-the-scenes/office-landscape.mp4"
+            poster="/images/posters/behind-the-scenes/office-landscape.webp"
             className="size-full"
           />
           <div className="absolute inset-0 bg-ebony/80" />
@@ -46,7 +46,7 @@ export default function Home() {
 
       <Growth />
 
-      <WorkReel projects={work.map(({ slug, client, kind, poster, video }) => ({ slug, client, kind, poster, video }))} />
+      <WorkReel projects={work.map(({ slug, client, kind, poster, preview }) => ({ slug, client, kind, poster, preview }))} />
 
       <section
         data-tone="dark"

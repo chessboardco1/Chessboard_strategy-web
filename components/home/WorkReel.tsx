@@ -6,7 +6,7 @@ import { Film } from '@/components/work/Film';
 import type { Work } from '@/lib/content';
 import styles from './WorkReel.module.css';
 
-type Project = Pick<Work, 'slug' | 'client' | 'kind' | 'poster' | 'video'>;
+type Project = Pick<Work, 'slug' | 'client' | 'kind' | 'poster' | 'preview'>;
 
 export function WorkReel({ projects }: { projects: Project[] }) {
   const board = useRef<HTMLDivElement>(null);
@@ -64,7 +64,7 @@ export function WorkReel({ projects }: { projects: Project[] }) {
                 <div className={styles.image} aria-hidden="true">
                   <img src={project.poster} alt="" loading="lazy" decoding="async" />
                   <div className={styles.preview}>
-                    <Film src={project.video} className="size-full" />
+                    <Film src={project.preview} startDelay={180} className="size-full" />
                   </div>
                 </div>
                 <div className={styles.caption}>

@@ -4,18 +4,25 @@ import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 import { TLink } from '@/components/motion/BoardTransition';
 import { SceneBoundary } from '@/components/three/SceneBoundary';
-import { useCanRender3D, useInView } from '@/components/three/shared';
+import { useCanRender3D, useInView } from '@/components/three/visibility';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 
 const KnightsScene = dynamic(() => import('@/components/three/KnightsScene'), { ssr: false });
 
 export function Hero() {
   const section = useRef<HTMLElement>(null);
+  const still = useRef<HTMLImageElement>(null);
   const progress = useRef(0);
   const can3D = useCanRender3D();
   const nearby = useInView(section, '120px 0px');
   const [motionAllowed, setMotionAllowed] = useState(false);
+  const [stillLoaded, setStillLoaded] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (still.current?.complete) setStillLoaded(true);
+  }, []);
 
   useEffect(() => {
     const motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
@@ -38,7 +45,11 @@ export function Hero() {
     return () => media.revert();
   }, { scope: section });
 
-  const showScene = can3D && motionAllowed;
+  useEffect(() => {
+    if (can3D && motionAllowed && stillLoaded && nearby) setMounted(true);
+  }, [can3D, motionAllowed, stillLoaded, nearby]);
+
+  const showScene = mounted && motionAllowed;
   const sceneReady = showScene && ready;
 
   return (
@@ -68,7 +79,7 @@ export function Hero() {
       <div aria-hidden="true" className="relative min-h-[285px] flex-1 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[48%] md:landscape:absolute md:landscape:inset-y-0 md:landscape:right-0 md:landscape:w-[46%]">
         <div className="pointer-events-none absolute left-1/2 top-1/2 aspect-[766/940] w-[min(115%,380px)] -translate-x-1/2 -translate-y-1/2 md:landscape:w-[min(115%,94svh)] lg:w-[min(115%,94svh)]">
           {/* The still uses the same camera crop as the first WebGL frame. */}
-          <img src="/brand/knights-preview.webp" alt="" width={728} height={729} fetchPriority="high" className="absolute left-[12%] top-[20%] h-[62%] w-[76%]" />
+          <img ref={still} src="/images/brand/knights-preview.webp" alt="" width={728} height={729} fetchPriority="high" onLoad={() => setStillLoaded(true)} onError={() => setStillLoaded(true)} className="absolute left-[12%] top-[20%] h-[62%] w-[76%]" />
           {showScene && (
             <div className={`absolute inset-0 bg-box ${sceneReady ? 'opacity-100 transition-opacity duration-200' : 'opacity-0'}`}>
               <SceneBoundary onError={() => setReady(false)}>

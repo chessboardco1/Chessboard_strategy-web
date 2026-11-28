@@ -56,7 +56,7 @@ export function Header() {
       >
         <div className={`wrap flex items-center justify-between gap-6 transition-[height,color] duration-500 ease-[var(--ease-move)] ${compact ? 'h-[64px]' : 'h-[88px]'} ${dark ? 'text-chalk' : 'text-ink'}`}>
           <TLink href="/" aria-label={`${site.name} home`} className="relative z-10 flex items-center">
-            <img src={dark ? '/brand/logo_white.png' : '/brand/logo.png'} alt={site.name} width={180} height={30} className={`w-auto transition-[height] duration-500 ease-[var(--ease-move)] ${compact ? 'h-[24px]' : 'h-[28px]'}`} />
+            <img src={dark ? '/images/brand/logo-white.webp' : '/images/brand/logo.webp'} alt={site.name} width={180} height={30} className={`w-auto transition-[height] duration-500 ease-[var(--ease-move)] ${compact ? 'h-[24px]' : 'h-[28px]'}`} />
           </TLink>
           <nav aria-label="Main" className="hidden items-center gap-9 text-[15px] font-medium lg:flex">
             {nav.slice(0, 4).map((item) => {

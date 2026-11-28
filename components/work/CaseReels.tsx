@@ -1,22 +1,19 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import type { WorkReel } from '@/lib/work-reels';
 import styles from './CaseReels.module.css';
 
 export function CaseReels({ client, reels }: { client: string; reels: WorkReel[] }) {
   const player = useRef<HTMLVideoElement>(null);
-  const [selected, setSelected] = useState<number | null>(null);
-  const current = selected ?? 0;
+  const [current, setCurrent] = useState(0);
   const reel = reels[current];
 
   function playReel(index: number) {
-    if (index === current) {
-      player.current?.play().catch(() => {});
-      return;
-    }
-
-    setSelected(index);
+    // Mount the new player while the browser still recognizes the click as user input.
+    if (index !== current) flushSync(() => setCurrent(index));
+    void player.current?.play().catch(() => {});
   }
 
   return (
@@ -37,8 +34,7 @@ export function CaseReels({ client, reels }: { client: string; reels: WorkReel[]
             aria-label={`${client}, ${reel.label}`}
             controls
             playsInline
-            autoPlay={selected !== null}
-            preload={reel.poster ? 'none' : 'metadata'}
+            preload="none"
           />
         </div>
 

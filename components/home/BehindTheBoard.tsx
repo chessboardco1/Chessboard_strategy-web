@@ -2,7 +2,7 @@ import { Film } from '@/components/work/Film';
 
 const clips = [
   { file: 'office-portrait', name: 'Behind the scenes: office' },
-  { file: 'samrudhhi-portrait', name: 'Behind the scenes: Samrudhhi' },
+  { file: 'samruddhi-portrait', name: 'Behind the scenes: Samruddhi' },
   { file: 'topboy-portrait', name: 'Behind the scenes: Topboy' },
 ];
 
@@ -13,7 +13,7 @@ export function BehindTheBoard() {
       <div className="wrap grid grid-cols-3 gap-2 sm:gap-4">
         {clips.map((clip) => (
           <div key={clip.file} className="relative aspect-square overflow-hidden bg-ebony">
-            <Film src={`/media/BTS/${clip.file}.mp4`} poster={`/media/BTS/${clip.file}.webp`} label={clip.name} className="size-full" />
+            <Film src={`/videos/behind-the-scenes/${clip.file}.mp4`} poster={`/images/posters/behind-the-scenes/${clip.file}.webp`} label={clip.name} className="size-full" />
           </div>
         ))}
       </div>

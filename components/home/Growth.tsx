@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { ChessDiagram } from '@/components/ChessDiagram';
 import { SceneBoundary } from '@/components/three/SceneBoundary';
 import { pieces } from '@/lib/content';
-import { useCanRender3D, useInView } from '@/components/three/shared';
+import { useCanRender3D, useInView } from '@/components/three/visibility';
 import { ScrollTrigger, useGSAP, prefersReducedMotion } from '@/lib/gsap';
 
 const BoardScene = dynamic(() => import('@/components/three/BoardScene'), { ssr: false });
@@ -21,11 +21,10 @@ export function Growth() {
   const progress = useRef(0);
   const [active, setActive] = useState(0);
   const can3D = useCanRender3D();
-  const approaching = useInView(section, '1600px 0px');
   const near = useInView(section, '640px 0px');
   const [mounted, setMounted] = useState(false);
   const [boardReady, setBoardReady] = useState(false);
-  useEffect(() => { if (approaching) setMounted(true); }, [approaching]);
+  useEffect(() => { if (near) setMounted(true); }, [near]);
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
